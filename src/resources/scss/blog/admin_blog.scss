@@ -1,0 +1,153 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+/*{
+    box-sizing: border-box;
+    border: 1px dashed white;
+} */
+
+/* layout */
+@media screen and (max-width: 1200px ) {
+    .left-sidebar {
+        .conversations_wrapper {
+            display: none!important;
+        }
+    }
+}
+/* theme */
+[data-bs-theme="dark"] {
+
+    body {
+        background-color: $black;
+    }
+
+}
+[data-bs-theme="light"] {
+    body {
+        background-color: $gray-200;
+    }
+
+}
+
+
+a.nav-link{
+    &:hover {
+        color: var(--bs-primary);
+    }
+}
+
+/* prism */
+pre[class*=language-] {
+    border: 0.3em solid #212529 !important;
+    box-shadow: 1px 1px 0.5em #000 inset !important;
+    background: $primary;
+}
+
+:not(pre)>code[class*=language-],
+pre[class*=language-] {
+    background: #1e1b18;
+}
+
+
+/* ScrollBars */
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: $dark;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(6, 6, 6);
+    border-radius: 0.25rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-code-color);
+}
+
+
+/* Offcanvas bottom */
+
+#bottom_menu_toggler {
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    right: .5rem;
+    rotate: 90deg;
+}
+
+
+/* Utilities */
+.fs_sm {
+    font-size: 0.8rem;
+}
+
+/* Admin only */
+.accordion-button::after {
+    border-radius: 50%;
+    display: inline-block;
+    padding: 0.15rem;
+}
+
+
+/* Posts Page */
+
+.post {
+    .card {
+        position: relative;
+    }
+    .status {
+        position: absolute;
+        top: 0.25rem;
+        right: -0.5rem;
+    }
+}
+
+.posts .post img {
+    object-fit: cover;
+}
+
+@media screen and (min-width: 992px) {
+    .w-lg-50 {
+        width: 50%;
+    }
+}
+
+/* @media screen and (min-width: 1400px) {
+    .starred_messages_widget {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+} */
+
+.animate-spinner {
+    animation-name: spin;
+    animation-duration: 500ms;
+    animation-iteration-count: infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+.pulse {
+    animation: pulse 1s infinite;
+    position: relative;
+}
+@keyframes pulse {
+    0%{
+        top: 0;
+    }
+    100%{
+        top: 2px;
+    }
+}
+
