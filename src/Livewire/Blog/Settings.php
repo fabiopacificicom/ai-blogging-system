@@ -71,6 +71,6 @@ class Settings extends Component
 
     public function render()
     {
-        return view('bloggai::blog.livewire.settings')->layout('bloggai::blog.layouts.components-admin');
+        return view('pacificdev::blog.livewire.settings')->layout('pacificdev::blog.layouts.components-admin');
     }
 }

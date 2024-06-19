@@ -2,14 +2,14 @@
 <!-- :data-bs-theme="darkMode ? 'dark' : 'light'" x-data="theme" -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('blog.partials.head')
+@include('partials.head')
 
 <body>
 
     <div id="blog">
 
         <header class="mb-0 bg-secondary-subtle border-bottom border-secondary-subtle">
-            @include('blog.partials.navbar')
+            @include('partials.navbar')
 
             @if(isset($header))
             <div class="py-4">
@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="row flex-row-reverse">
 
-                @include('blog.partials.sidebar')
+                @include('partials.sidebar')
                 <div class="col left-sidebar">
                     @yield('left-sidebar')
                 </div>

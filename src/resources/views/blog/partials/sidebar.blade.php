@@ -17,6 +17,6 @@
             </template>
 
         </button>
-        @include('blog.partials.navigation')
+        @include('partials.navigation')
     </div>
 </div>

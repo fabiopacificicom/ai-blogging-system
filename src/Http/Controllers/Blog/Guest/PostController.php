@@ -24,7 +24,7 @@ class PostController extends Controller
             $posts = Post::search($request->searchPost)->paginate(12);
         }
 
-        return view('bloggai::blog.guests.posts.index', compact('posts'));
+        return view('pacificdev::blog.guests.posts.index', compact('posts'));
     }
 
     /**

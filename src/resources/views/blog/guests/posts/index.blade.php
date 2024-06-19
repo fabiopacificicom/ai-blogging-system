@@ -1,8 +1,6 @@
-@extends('blog.layouts.app')
+@extends('pacificdev::blog.layouts.app')
 
-@section('styles')
-@vite(['resources/scss/blog/prism_blog.scss', 'resources/js/blog/prism_blog.js'])
-
+@push('styles')
 <style>
     @media (prefers-color-scheme: light) {
         main {
@@ -43,7 +41,15 @@
         }
     }
 </style>
-@endsection
+@endpush
+
+
+@push('scripts')
+<script src="{{asset('vendor/pacificdev/blog-ai/js/prism.js')}}"></script>
+@endpush
+
+
+
 
 @section('content')
 

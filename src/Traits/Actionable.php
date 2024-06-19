@@ -8,22 +8,46 @@ trait Actionable
 {
 
 
+  private function publishPackageFiles()
+  {
+    // publish views
+    $this->publishes([
+      __DIR__ . '/../resources/views' => resource_path('views/vendor/pacificdev/blog'),
+    ]);
+
+
+    // publish package assets for the admin and guest
+    $this->publishes([
+      __DIR__ . '/../resources/admin/js/admin.js' => resource_path('js/vendor/pacificdev/blog-ai/admin.js'),
+      __DIR__ . '/../resources/admin/scss/admin.scss' => resource_path('scss/vendor/pacificdev/blog-ai/admin.scss'),
+      __DIR__ . '/../resources/admin/css/toastui-editor-dark.css' => resource_path('css/vendor/pacificdev/blog-ai/toastui-editor-dark.css'),
+      __DIR__ . '/../resources/admin/css/toastui-editor.css' => resource_path('css/vendor/pacificdev/blog-ai/toastui-editor.css'),
+
+      __DIR__ . '/../resources/guest/js/app.js' => resource_path('js/vendor/pacificdev/blog-ai/app.js'),
+      __DIR__ . '/../resources/guest/scss/app.scss' => resource_path('scss/vendor/pacificdev/blog-ai/app.scss'),
+
+      __DIR__ . '/../resources/common/js/prism.js' => public_path('vendor/pacificdev/blog-ai/js/prism.js'),
+      __DIR__ . '/../resources/common/css/prism.css' => public_path('vendor/pacificdev/blog-ai/css/prism.css'),
+
+    ], 'blog-ai-assets');
+
+
+
+    // Load config
+    $this->publishes([
+      __DIR__ . '/../config/bloggai.php' => config_path('bloggai.php')
+    ]);
+  }
+
   private function loadLivewireComponentsFrom($path)
   {
     // Verify that the destination directory exists or create it
     $destinationPath = base_path('app/Livewire/Blog');
-    if (!File::isDirectory($destinationPath)) {
-      File::makeDirectory($destinationPath, 0755, true);
+    if (File::isDirectory($destinationPath)) {
+      return;
     }
-
-    // Determine if the $path is a directory or a file
-    if (File::isDirectory($path)) {
-      // Copy the directory and its contents
-      $success = File::copyDirectory($path, $destinationPath);
-    } else {
-      // Copy the file
-      $success = File::copy($path, $destinationPath . '/' . basename($path));
-    }
+    File::makeDirectory($destinationPath, 0755, true);
+    $success = File::copyDirectory($path, $destinationPath);
 
     // Handle the success or failure of the copy operation
     if (!$success) {

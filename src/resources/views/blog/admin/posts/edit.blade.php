@@ -1,4 +1,4 @@
-@extends('blog.layouts.admin')
+@extends('pacificdev::blog.layouts.admin')
 
 @section('styles')
 @vite([

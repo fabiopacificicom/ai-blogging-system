@@ -26,22 +26,14 @@ class PacificDevServiceProvider extends ServiceProvider
   {
 
     // Register the component
-    Blade::componentNamespace('PacificDev\\BlogAi\\Views\\Components', 'bloggai');
+    Blade::componentNamespace('PacificDev\\BlogAi\\Views\\Components', 'pacificdev');
 
 
     // Load views
-    $this->loadViewsFrom(__DIR__ . '/resources/views', 'bloggai');
+    $this->loadViewsFrom(__DIR__ . '/resources/views', 'pacificdev');
 
-    // publish views
-    $this->publishes([
-      __DIR__ . '/resources/views' => resource_path('views/vendor/bloggai'),
-    ]);
-
-
-    // Load config
-    $this->publishes([
-      __DIR__ . '/config/bloggai.php' => config_path('bloggai.php')
-    ]);
+    // load package assets and config file
+    $this->publishPackageFiles();
 
     // load tests
 

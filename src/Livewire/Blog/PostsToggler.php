@@ -29,6 +29,6 @@ class PostsToggler extends Component
 
     public function render()
     {
-        return view('bloggai::blog.livewire.posts.posts-toggler');
+        return view('pacificdev::blog.livewire.posts.posts-toggler');
     }
 }

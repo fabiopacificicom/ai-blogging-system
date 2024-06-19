@@ -1,4 +1,4 @@
-@extends('blog.layouts.app')
+@extends('pacificdev::blog.layouts.app')
 
 @section('styles')
 <meta name="description" content="{{$post->summary}}">

@@ -50,10 +50,10 @@ class PostsPage extends Component
     public function render()
     {
         return view(
-            'bloggai::blog.livewire.posts.posts-page',
+            'pacificdev::blog.livewire.posts.posts-page',
             [
                 'posts' => $this->posts
             ]
-        )->layout('bloggai::blog.layouts.components-admin');
+        )->layout('pacificdev::blog.layouts.components-admin');
     }
 }

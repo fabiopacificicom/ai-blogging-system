@@ -8,6 +8,6 @@ class CreatePostForm extends Component
 {
     public function render()
     {
-        return view('bloggai::blog.livewire.posts.create-post-form')->layout('bloggai::blog.layouts.components-admin');
+        return view('pacificdev::blog.livewire.posts.create-post-form')->layout('pacificdev::blog.layouts.components-admin');
     }
 }

@@ -25,12 +25,12 @@ class PostController extends Controller
     {
         $posts = Post::orderByDesc('id')->paginate(12);
 
-        return view('bloggai::blog.admin.posts.index', compact('posts'));
+        return view('pacificdev::blog.admin.posts.index', compact('posts'));
     }
 
     public function create(): View
     {
-        return view('bloggai::blog.admin.posts.create');
+        return view('pacificdev::blog.admin.posts.create');
     }
 
     public function store(Request $request, OpenAi $ai)
@@ -93,7 +93,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('bloggai::blog.admin.posts.edit', compact('post'));
+        return view('pacificdev::blog.admin.posts.edit', compact('post'));
     }
 
     /**
