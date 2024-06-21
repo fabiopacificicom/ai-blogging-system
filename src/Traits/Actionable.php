@@ -10,10 +10,10 @@ trait Actionable
 
   private function publishPackageFiles()
   {
-    // publish views
+
     $this->publishes([
-      __DIR__ . '/../resources/views' => resource_path('views/vendor/pacificdev/blog'),
-    ]);
+      __DIR__ . '/../View/Components' => base_path('app/View/Components')
+    ], 'pacificdev:ai-blog-components');
 
 
     // publish package assets for the admin and guest
@@ -29,9 +29,12 @@ trait Actionable
       __DIR__ . '/../resources/common/js/prism.js' => public_path('vendor/pacificdev/blog-ai/js/prism.js'),
       __DIR__ . '/../resources/common/css/prism.css' => public_path('vendor/pacificdev/blog-ai/css/prism.css'),
 
-    ], 'blog-ai-assets');
+    ], 'pacificdev:ai-blog-assets');
 
+    $this->publishes([
+      __DIR__ . '/../resources/views' => resource_path('views/vendor/pacificdev/'),
 
+    ], 'pacificdev:ai-blog-views');
 
     // Load config
     $this->publishes([
@@ -73,13 +76,13 @@ trait Actionable
     }
   }
 
-  private function loadModelsFrom($path)
+  /* private function loadModelsFrom($path)
   {
     File::copyDirectory(
       $path,
       base_path('/app/Models')
     );
-  }
+  } */
 
   private function loadControllersFrom($path)
   {

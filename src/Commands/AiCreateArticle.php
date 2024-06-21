@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use PacificDev\LaravelOpenAi\Services\OpenAi;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Arr;
+use PacificDev\BlogAi\Models\Post;
 
 class AiCreateArticle extends Command
 {
@@ -128,7 +129,7 @@ class AiCreateArticle extends Command
         // TODO: WTF dude
         $title = $title['title'];
         //create the post
-        \App\Models\Post::create(compact('content', 'cover_image', 'title', 'summary', 'slug'));
+        Post::create(compact('content', 'cover_image', 'title', 'summary', 'slug'));
 
         $doneTime = now()->diffForHumans($starTime);
         $message = "✅ Command successful! Article Generated in $doneTime";

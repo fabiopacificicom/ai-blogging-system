@@ -1,10 +1,10 @@
 <?php
 
-namespace PacificDev\BlogAi\View\Components;
+namespace PacificDev\BlogAi\View\Components\Blog;
 
 use Illuminate\View\Component;
 
-class Panel extends Component
+class PanelComponent extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class Panel extends Component
      */
     public function render()
     {
-        return view('bloggai::blog.components.panel');
+        return view('pacificdev::blog.components.panel');
     }
 }

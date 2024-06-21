@@ -9,6 +9,9 @@ use PacificDev\BlogAi\Commands\AiCreateArticle;
 use PacificDev\BlogAi\Commands\BloggaiSocialShare;
 use PacificDev\BlogAi\Traits\Actionable;
 use Illuminate\Support\Facades\Blade;
+use PacificDev\BlogAi\View\Components\Blog\PanelComponent;
+use PacificDev\BlogAi\Livewire\Blog\PostsWordsCounter;
+use Livewire\Livewire;
 
 class PacificDevServiceProvider extends ServiceProvider
 {
@@ -26,9 +29,8 @@ class PacificDevServiceProvider extends ServiceProvider
   {
 
     // Register the component
-    Blade::componentNamespace('PacificDev\\BlogAi\\Views\\Components', 'pacificdev');
-
-
+    Blade::component('pacificdev-panel', PanelComponent::class);
+    Livewire::component('blog.posts-words-counter', PostsWordsCounter::class);
     // Load views
     $this->loadViewsFrom(__DIR__ . '/resources/views', 'pacificdev');
 
@@ -44,7 +46,7 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
     // load models
-    $this->loadModelsFrom(__DIR__ . '/Models');
+    //$this->loadModelsFrom(__DIR__ . '/Models');
 
     // load controllers
 

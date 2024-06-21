@@ -5,7 +5,7 @@ namespace PacificDev\BlogAi\Livewire\Blog;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Illuminate\Support\Arr;
-use App\Models\Topic;
+use PacificDev\BlogAi\Models\Topic;
 use Illuminate\Support\Str;
 
 class Settings extends Component

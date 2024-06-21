@@ -5,37 +5,35 @@
 
     <div class="row row-cols-1 row-cols-sm-3  row-cols-lg-4 g-3">
 
-        <x-panel class="col" route="#" title="TotalWords" value="">
+        <x-pacificdev::blog.panel class="col" route="#" title="TotalWords" value="">
             <x-slot name="icon">
                 <i class="bi bi-card-text"></i>
             </x-slot>
             <h3>
                 <livewire:posts-words-counter></livewire:posts-words-counter>
             </h3>
-        </x-panel>
+        </x-pacificdev::blog.panel>
 
 
-        <x-panel class="col" route="#" title="AI writes" value="Generate" data-bs-toggle="modal" data-bs-target="#create-post-modal">
+        <x-pacificdev::blog.panel class="col" route="#" title="AI writes" value="Generate" data-bs-toggle="modal" data-bs-target="#create-post-modal">
             <x-slot name="icon">
                 <i class="bi bi-body-text"></i>
             </x-slot>
-            @include('partials.posts.create-modal')
-        </x-panel>
+            @include('partials.create-modal')
+        </x-pacificdev::blog.panel>
 
 
-        <x-panel class="col" route="{{route('admin.posts.create')}}" title="You write" value="Write">
+        <x-pacificdev::blog.panel class="col" route="{{route('admin.posts.create')}}" title="You write" value="Write">
             <x-slot name="icon">
                 <i class="bi bi-plus-circle-fill"></i>
             </x-slot>
-        </x-panel>
+        </x-pacificdev::blog.panel>
 
-        <x-panel class="col" route="{{route('admin.blog.settings')}}" title="Settings" value="Customize">
+        <x-pacificdev::blog.panel class="col" route="{{route('admin.blog.settings')}}" title="Settings" value="Customize">
             <x-slot name="icon">
                 <i class="bi bi-sliders2-vertical"></i>
             </x-slot>
-        </x-panel>
-
-
+        </x-pacificdev::blog.panel>
 
 
     </div>

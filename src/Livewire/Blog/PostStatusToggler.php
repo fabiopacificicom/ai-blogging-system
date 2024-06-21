@@ -2,7 +2,7 @@
 
 namespace PacificDev\BlogAi\Livewire\Blog;
 
-use App\Models\Post;
+use PacificDev\BlogAi\Models\Post;
 use Livewire\Component;
 
 class PostStatusToggler extends Component
