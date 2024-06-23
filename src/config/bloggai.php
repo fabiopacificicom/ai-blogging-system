@@ -1,6 +1,17 @@
 <?php
 
 return [
+  'openai' => [
+    'api_key' => env('OPENAI_API_KEY', ''),
+    'endpoints' => [
+      'chat' => [
+        'completations' => 'https://api.openai.com/v1/chat/completions',
+      ],
+      'images' => [
+        'create' => 'https://api.openai.com/v1/images/generations',
+      ]
+    ],
+  ],
   'presets' => [
     'system' => [
       'role' => 'system',
@@ -28,7 +39,7 @@ return [
         'max_tokens' => 25,
       ],
       'summary' => [
-        'prompt' => "Given the following blog post, please summarize the key points and return the summary as a JSON object with the key 'summary'. Please return only the JSON object and nothing else.\n",
+        'prompt' => "Given the following blog post, please summarize it and return a JSON object with a single key:value pair. Example: 'summary':'This blog post talks about: '. Please return only the JSON object and nothing else.\n",
         'model' => 'text-davinci-002',
         'temperature' => 0.8,
         'max_tokens' => 200,

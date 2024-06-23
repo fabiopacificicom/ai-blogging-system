@@ -36,7 +36,7 @@ class PostController extends Controller
     {
 
         if ($post->status == 'public') {
-            return view('bloggai::blog.guests.posts.show', compact('post'));
+            return view('pacificdev::blog.guests.posts.show', compact('post'));
         }
         abort('404');
     }

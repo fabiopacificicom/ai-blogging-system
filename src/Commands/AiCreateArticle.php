@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PacificDev\LaravelOpenAi\Services\OpenAi;
+use PacificDev\BlogAi\Services\OpenAi;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Arr;
 use PacificDev\BlogAi\Models\Post;
@@ -75,13 +75,13 @@ class AiCreateArticle extends Command
         // slug to avoid db violation.
         $title = json_decode($titleResponse, true);
         $slug = Str::slug($title['title']);
+        Log::info('Post title: ' . $title['title']);
+
+        //$post = Post::create(['title' => $title['title'], 'slug' => $slug]);
+        $this->info('✅ Post title and slug saved');
 
         //dd($titleResponse, $title, $slug);
 
-        /* Given the post title was successfully generated we now generate the post content
-        TODO: how do we handle temporary failures in post generation? The request could fail initially
-        but if we retry later it might not fail.
-        */
         // GENERATE THE POST CONTENT
         $this->info('⌛ Generating the post content...');
         $content = $this->generateContent($ai, $title['title']);
@@ -95,6 +95,11 @@ class AiCreateArticle extends Command
         }
 
         $this->info('✅ Post content generated successfully!');
+        $this->info($content);
+
+        // update the post by saving its content
+        //$post->update(['content' => $content]);
+        $this->info('✅ Post content saved');
 
         //dd($titleResponse, $title, $slug, $content, $content);
 
@@ -114,10 +119,18 @@ class AiCreateArticle extends Command
             exit;
         }
         $this->info('✅ Post summary generated successfully!');
-        //dd(json_decode($summaryResponse, true));
-        $summary = json_decode($summaryResponse, true)['summary'];
+        $summary = json_decode($summaryResponse, true);
+        //dd($summaryResponse, $summary);
 
-        //dd($summaryResponse);
+        // update the post summary
+        if (is_array($summary) && in_array('summary', $summary)) {
+            $this->info($summary['summary']);
+
+            $summary = $summary['summary'];
+            $this->info('✅ Post summary saved');
+        }
+
+
 
         // GENERATE THE POST IMAGE
         $this->info('⌛ Generating the post image...');
@@ -125,10 +138,26 @@ class AiCreateArticle extends Command
         $cover_image = $this->generateAndStoreImage($ai);
         $this->info('✅ Post cover image generated successfully!');
 
-        $this->info('⌛ Saving the post ...');
-        // TODO: WTF dude
+        $this->info('⌛ Updating the post ...');
+
+        //update the image
+        //$post->update(['cover_image' => $cover_image]);
+        $this->info('✅ Post image saved');
+
+        //dd($title, $slug, $summary, $content, $cover_image);
         $title = $title['title'];
-        //create the post
+        $summary = $summary['summary'];
+        /* Log::info('this is the post data: ', [
+            'title' => $title,
+            'slug' => $slug,
+            'summary' => $summary,
+            'content' => $content,
+            'cover_image' => $cover_image,
+
+        ]);
+         */
+        //dd('hi');
+        //TODO: remove, this is replaced by updates during the above process
         Post::create(compact('content', 'cover_image', 'title', 'summary', 'slug'));
 
         $doneTime = now()->diffForHumans($starTime);

@@ -1,7 +1,7 @@
 <ul class="navbar-nav">
     @guest
     <li class="nav-item">
-        <a wire:navigate class="nav-link" href="{{url('/') }}">{{ __('Home') }}</a>
+        <a class="nav-link" href="{{url('/') }}">{{ __('Home') }}</a>
     </li>
     @else
     <li class="nav-item">
@@ -15,7 +15,7 @@
             </span>
         </a>
         @else
-        <a wire:navigate class="nav-link" href="{{url('/dashboard')}}">
+        <a class="nav-link" href="{{url('/dashboard')}}">
             <span class="icon">
                 <i class="bi bi-view-stacked"></i>
             </span>

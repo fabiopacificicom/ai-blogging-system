@@ -157,7 +157,7 @@
 
                 @empty
                 <tr class="table-dark">
-                    <td scope="row">😑 No Posts yet!</td>
+                    <td scope="row" colspan="5">😑 No Posts yet!</td>
 
                 </tr>
 

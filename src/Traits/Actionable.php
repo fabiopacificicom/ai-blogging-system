@@ -43,7 +43,7 @@ trait Actionable
     // Load config
     $this->publishes([
       __DIR__ . '/../config/bloggai.php' => config_path('bloggai.php')
-    ]);
+    ], 'pacificdev:ai-blog-config');
   }
 
   private function loadLivewireComponentsFrom($path)

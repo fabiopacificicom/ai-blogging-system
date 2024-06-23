@@ -39,3 +39,12 @@ use PacificDev\BlogAi\Http\Middleware\Blog\SuperAdmin;
     })
 
 ```
+
+Set the .env file
+The package is configured to make posts searchable therefore you need to add the scout driver environment variable.
+
+```env
+OPENAI_API_KEY=your_api_key_here
+SCOUT_DRIVER=database
+
+```
