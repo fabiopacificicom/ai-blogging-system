@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<!-- :data-bs-theme="darkMode ? 'dark' : 'light'" x-data="theme" -->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
 @include('pacificdev::blog.partials.head')
 
 <body>
@@ -29,6 +28,8 @@
         </div>
 
     </div>
+    @vite(['resources/js/vendor/pacificdev/blog-ai/admin.js'])
+
     @livewireScriptConfig
 
 </body>

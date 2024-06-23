@@ -20,7 +20,8 @@
 
 
     @vite(['resources/scss/vendor/pacificdev/blog-ai/app.scss'])
-    <link rel="stylesheet" href="{{asset('vendor/pacificdev/blog-ai/css/prism.css')}}">
+    <link rel="stylesheet" href="{{asset('css/vendor/pacificdev/blog-ai/prism.css')}}">
+    <script src="{{asset('js/vendor/pacificdev/blog-ai/prism.js')}}" defer></script>
 
     @stack('styles')
 </head>

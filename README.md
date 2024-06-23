@@ -15,7 +15,7 @@ composer require pacificdev/ai-cms
 
 ```bash
 
-php artisan vendor:publish --tag=blog-ai-assets
+php artisan vendor:publish --tag=pacificdev:blog-ai-assets
 ```
 
 Run the migrations

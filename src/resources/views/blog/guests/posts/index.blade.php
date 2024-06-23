@@ -44,13 +44,6 @@
 @endpush
 
 
-@push('scripts')
-<script src="{{asset('vendor/pacificdev/blog-ai/js/prism.js')}}"></script>
-@endpush
-
-
-
-
 @section('content')
 
 <div class="jumbotron p-5 bg-black text-white rounded-0" style="background-image: url('{{ $posts[count($posts) - 1]?->coverImagePath() }}');">

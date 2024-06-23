@@ -1,6 +1,7 @@
-import '../bootstrap.js';
+import '~resources/js/bootstrap';
 import * as bootstrap from 'bootstrap';
 import '~icons/bootstrap-icons.scss';
+
 import.meta.glob([
     '../img/**'
 ]);

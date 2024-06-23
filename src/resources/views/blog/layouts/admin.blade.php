@@ -1,6 +1,5 @@
 <!doctype html>
-<!-- :data-bs-theme="darkMode ? 'dark' : 'light'" x-data="theme" -->
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
 
 @include('pacificdev::blog.partials.head')
 
@@ -40,7 +39,7 @@
 
     </div>
 
-    @vite(['resources/js/blog/admin_blog.js', 'resources/js/blog/prism_blog.js'])
+    @vite(['resources/js/vendor/pacificdev/blog-ai/admin.js'])
 
     @yield('beforeBodyEnd')
     @livewireScriptConfig

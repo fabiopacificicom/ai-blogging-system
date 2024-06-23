@@ -16,6 +16,9 @@
     <!-- Usando Vite -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
-    @vite(['resources/scss/blog/admin_blog.scss', 'resources/scss/blog/prism_blog.scss'])
+    @vite(['resources/scss/vendor/pacificdev/blog-ai/admin.scss'])
+    <link rel="stylesheet" href="{{asset('css/vendor/pacificdev/blog-ai/prism.css')}}">
+    <script src="{{asset('js/vendor/pacificdev/blog-ai/prism.js')}}" defer></script>
+
     @yield('styles')
 </head>

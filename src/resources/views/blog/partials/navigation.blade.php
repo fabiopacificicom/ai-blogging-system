@@ -15,7 +15,7 @@
             </span>
         </a>
         @else
-        <a wire:navigate class="nav-link" href="{{url('/admin')}}">
+        <a wire:navigate class="nav-link" href="{{url('/dashboard')}}">
             <span class="icon">
                 <i class="bi bi-view-stacked"></i>
             </span>
