@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Blade;
 use PacificDev\BlogAi\View\Components\Blog\PanelComponent;
 use PacificDev\BlogAi\Livewire\Blog\PostsWordsCounter;
 use Livewire\Livewire;
+use PacificDev\BlogAi\Livewire\Blog\PostsToggler;
+use PacificDev\BlogAi\Livewire\Blog\SearchPosts;
 
 class PacificDevServiceProvider extends ServiceProvider
 {
@@ -31,6 +33,10 @@ class PacificDevServiceProvider extends ServiceProvider
     // Register the component
     Blade::component('pacificdev-panel', PanelComponent::class);
     Livewire::component('blog.posts-words-counter', PostsWordsCounter::class);
+    Livewire::component('blog.posts-toggler', PostsToggler::class);
+    Livewire::component('blog.search-posts', SearchPosts::class);
+
+
     // Load views
     $this->loadViewsFrom(__DIR__ . '/resources/views', 'pacificdev');
 
@@ -44,9 +50,6 @@ class PacificDevServiceProvider extends ServiceProvider
 
     // load migrations
     $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-
-    // load models
-    //$this->loadModelsFrom(__DIR__ . '/Models');
 
     // load controllers
 

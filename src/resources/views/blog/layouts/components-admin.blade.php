@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <!-- :data-bs-theme="darkMode ? 'dark' : 'light'" x-data="theme" -->
-@include('partials.head')
+@include('pacificdev::blog.partials.head')
 
 <body>
 
     <div id="blog">
 
         <header class="mb-0 bg-secondary-subtle border-bottom border-secondary-subtle">
-            @include('partials.navbar')
+            @include('pacificdev::blog.partials.navbar')
 
             <!-- Page Heading -->
             @if(isset($header))
@@ -20,7 +20,7 @@
 
         <div class="container">
             <div class="row">
-                @include('partials.sidebar')
+                @include('pacificdev::blog.partials.sidebar')
 
                 <main class="col col-lg-9">
                     {{$slot}}

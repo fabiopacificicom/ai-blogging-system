@@ -8,8 +8,8 @@
 
 @section('content')
 <div class="container mt-5">
-    @include('partials.session')
-    @include('partials.validation')
+    @include('pacificdev::blog.partials.session')
+    @include('pacificdev::blog.partials.validation')
     <h1 class="mb-3 mb-lg-5">Edit: {{$post->title}}</h1>
 
     <div class="view_post mb-2">

@@ -9,8 +9,8 @@
 
 @section('content')
 <div class="container mt-5">
-    @include('partials.session')
-    @include('partials.validation')
+    @include('pacificdev::blog.partials.session')
+    @include('pacificdev::blog.partials.validation')
     <h4 class="mb-3 mb-lg-5">👋 Hi {{Auth::user()->name}}, let's create a new amnazing Post! </h4>
 
     <form action="{{route('admin.posts.store')}}" method="post" id="createPostForm" class="mb-3">

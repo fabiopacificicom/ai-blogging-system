@@ -34,7 +34,7 @@
                     </h2>
                     <div id="flush-blog" class="accordion-collapse" aria-labelledby="flush-headingOne" data-bs-parent="#ai-settings">
                         <div class="accordion-body">
-                            @include('partials.blog-settings')
+                            @include('pacificdev::blog.partials.blog-settings')
                         </div>
                     </div>
 

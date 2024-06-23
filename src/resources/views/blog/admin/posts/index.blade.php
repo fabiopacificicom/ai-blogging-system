@@ -19,7 +19,7 @@
             <x-slot name="icon">
                 <i class="bi bi-body-text"></i>
             </x-slot>
-            @include('partials.create-modal')
+            @include('pacificdev::partials.create-modal')
         </x-pacificdev::blog.panel>
 
 
@@ -38,7 +38,7 @@
 
     </div>
 
-    @include('partials.session')
+    @include('pacificdev::blog.partials.session')
 
 
     <div class="card p-3 m-3">

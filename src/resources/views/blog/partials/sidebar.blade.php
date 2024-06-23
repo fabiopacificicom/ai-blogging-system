@@ -17,6 +17,6 @@
             </template>
 
         </button>
-        @include('partials.navigation')
+        @include('pacificdev::blog.partials.navigation')
     </div>
 </div>

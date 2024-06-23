@@ -35,7 +35,7 @@
         <div class="offcanvas offcanvas-bottom rounded-top-5 h-50" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-body d-flex flex-column justify-content-between">
                 <!-- top Side Of Navbar -->
-                @include('partials.navigation')
+                @include('pacificdev::blog.partials.navigation')
             </div>
         </div>
         <!-- /offcanvas Main App Menu -->

@@ -29,7 +29,7 @@
             <x-slot name="icon">
                 <i class="bi bi-body-text"></i>
             </x-slot>
-            @include('partials.create-modal')
+            @include('pacificdev::blog.partials.create-modal')
         </x-pacificdev-panel>
 
 
@@ -47,7 +47,7 @@
 
     </div>
 
-    @include('partials.session')
+    @include('pacificdev::blog.partials.session')
 
     <!-- Options -->
     <div class="d-flex align-items-center my-3 position-relative">

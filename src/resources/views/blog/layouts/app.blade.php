@@ -40,7 +40,7 @@
                         @endguest
                     </a>
                     <!-- darkmode toggler -->
-                    {{--@include('partials.layout.theme-toggler')--}}
+                    {{--@include('pacificdev::blog.partials.layout.theme-toggler')--}}
                     <!-- /darkmode toggler -->
 
                     @auth
