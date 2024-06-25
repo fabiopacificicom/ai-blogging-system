@@ -3,49 +3,48 @@
     use PacificDev\BlogAi\Models\Post;
     @endphp
     <x-slot name="header">
-        <div class="container">
-            <h5>Blog-AI</h5>
+        <div class="container-fluid">
+            <div class="row">
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#create-post-modal">
+                    <i class="bi bi-body-text"></i>
+                    Generate
+                </button>
+                @include('pacificdev::blog.partials.create-modal')
+            </div>
+            <div class="row row-cols-2 row-cols-lg-4 g-1">
+
+                <x-pacificdev-panel class="col p-2" route="#" title="TotalWords" value="">
+                    <x-slot name="icon">
+                        <i class="bi bi-card-text"></i>
+                    </x-slot>
+                    <h3>
+                        <livewire:blog.posts-words-counter></livewire:blog.posts-words-counter>
+                    </h3>
+                </x-pacificdev-panel>
+
+
+                <x-pacificdev-panel class="col p-2" route="{{route('admin.posts.index')}}" title="{{__('Short Posts')}}" value="{{ Post::count()}}">
+                    <x-slot name="icon">
+                        <i class="bi bi-markdown"></i>
+                    </x-slot>
+                </x-pacificdev-panel>
+
+
+                <x-pacificdev-panel class="col p-2" route="{{route('admin.posts.create')}}" title="You write" value="Write">
+                    <x-slot name="icon">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </x-slot>
+                </x-pacificdev-panel>
+
+                <x-pacificdev-panel class="col p-2" route="{{route('admin.blog.settings')}}" title="Blog Settings" value="Customize">
+                    <x-slot name="icon">
+                        <i class="bi bi-sliders2-vertical"></i>
+                    </x-slot>
+                </x-pacificdev-panel>
+
+            </div>
         </div>
     </x-slot>
-    <div class="row row-cols-1 row-cols-sm-3  row-cols-lg-4 mt-3 g-3">
-
-        <x-pacificdev-panel class="col" route="#" title="TotalWords" value="">
-            <x-slot name="icon">
-                <i class="bi bi-card-text"></i>
-            </x-slot>
-            <h3>
-                <livewire:blog.posts-words-counter></livewire:blog.posts-words-counter>
-            </h3>
-        </x-pacificdev-panel>
-
-
-        <x-pacificdev-panel class="col" route="{{route('admin.posts.index')}}" title="{{__('Short Posts')}}" value="{{ Post::count()}}">
-            <x-slot name="icon">
-                <i class="bi bi-markdown"></i>
-            </x-slot>
-        </x-pacificdev-panel>
-
-        <x-pacificdev-panel class="col" route="#" title="AI writes" value="Generate" data-bs-toggle="modal" data-bs-target="#create-post-modal">
-            <x-slot name="icon">
-                <i class="bi bi-body-text"></i>
-            </x-slot>
-            @include('pacificdev::blog.partials.create-modal')
-        </x-pacificdev-panel>
-
-
-        <x-pacificdev-panel class="col" route="{{route('admin.posts.create')}}" title="You write" value="Write">
-            <x-slot name="icon">
-                <i class="bi bi-plus-circle-fill"></i>
-            </x-slot>
-        </x-pacificdev-panel>
-
-        <x-pacificdev-panel class="col" route="{{route('admin.blog.settings')}}" title="Blog Settings" value="Customize">
-            <x-slot name="icon">
-                <i class="bi bi-sliders2-vertical"></i>
-            </x-slot>
-        </x-pacificdev-panel>
-
-    </div>
 
     @include('pacificdev::blog.partials.session')
 
