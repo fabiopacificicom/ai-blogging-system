@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Support\Facades\Schedule;
+
+
+Schedule::command('bloggai:post')->weeklyOn([2, 3], '13:12');
+
+Schedule::call(function () {
+  $latestPost = Post::where('status', 'public')->latest()->first();
+
+  if (!$latestPost) {
+    Log::info('Nothing to share');
+
+    return;
+  }
+
+  $postUrl = URL::to('/posts/' . $latestPost?->slug);
+  $postSummary = $latestPost?->summary;
+  $openAi = new OpenAi();
+  $laiResponse = $openAi->chat([
+    'messages' => [
+      config('bloggai.presets.system'), // the system message
+      config('bloggai.presets.shareInstructions'), // the user instructions to generate a post given the below summary
+      [
+        'role' => 'user',
+        'content' => $postSummary,
+      ], // the latest post summary to generate the share text from
+    ],
+    'max_tokens' => config('bloggai.presets.share.max_tokens', 550),
+    'temperature' => config('bloggai.presets.share.temperature', 0.2),
+  ]);
+
+  $shareText = $openAi->getAnswer($laiResponse);
+  if (!$shareText) {
+    Log::error($openAi->getFailureMessage($laiResponse));
+
+    return;
+  }
+
+  /* TODO:
+            the social name should be dynamic and not hardcoded when multiple social will be available
+            */
+  $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
+})->name('bloggai.share')->weeklyOn([3, 4], '09:00');

@@ -3,6 +3,7 @@
 namespace PacificDev\BlogAi\Traits;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\App;
 
 trait Actionable
 {
@@ -64,6 +65,42 @@ trait Actionable
   }
 
 
+  private function loadDefaultSheduler()
+  {
+
+    // get the framework version
+    if (
+      File::exists(base_path('/routes/bloggai-sheduled-commands.php')) ||
+      File::exists(base_path('/app/Console/Kernel-bloggai.php'))
+    ) {
+      return;
+    }
+
+    $version = intval(substr(App::version(), 0, 2));
+    if ($version >= 11) {
+      // copy the bloggai-sheduled-commands routes file 
+      File::copy(__DIR__ . '/../routes/bloggai-sheduled-commands.php', base_path('/routes/bloggai-sheduled-commands.php'));
+      $console_routes_php_file = 'routes/console.php';
+      $this->append_to_file($console_routes_php_file, "require __DIR__ . '/bloggai-sheduled-commands.php';");
+    } else {
+      // copy the Console/Kernel.php file
+      File::copy(__DIR__ . '/../Console/Kernel.php', base_path('/app/Console/Kernel-bloggai.php'));
+    }
+  }
+
+
+  private function loadEnvironment()
+  {
+    // Append the LINKEDIN_ constants to the .env file
+    if (!env('LINKEDIN_CLIENT_ID') || !env('LINKEDIN_CLIENT_SECRET')) {
+      $env_file_path = '.env';
+      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_ID=your_client_id_key_goes_here' . "\n");
+      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_SECRET=your_secrets_here');
+    }
+  }
+
+
+
   private function loadRoutes($path)
   {
     // If the route file does not exist we copy it and append it to the end of web.php
@@ -72,11 +109,6 @@ trait Actionable
       File::copy($path . '/bloggai-routes.php', base_path('/routes/bloggai.php'));
       $web_php_file = 'routes/web.php';
       $this->append_to_file($web_php_file, "require __DIR__ . '/bloggai.php';");
-
-      // Append the LINKEDIN_ constants to the .env file
-      $env_file_path = '.env';
-      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_ID=your_client_id_key_goes_here');
-      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_SECRET=your_secrets_here');
     }
   }
 

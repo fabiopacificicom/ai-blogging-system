@@ -31,6 +31,12 @@ class PacificDevServiceProvider extends ServiceProvider
   public function boot()
   {
 
+
+    $this->loadDefaultSheduler();
+
+    // Loads required environment variables in the .env file
+    $this->loadEnvironment();
+
     // Register the component
     Blade::component('pacificdev-panel', PanelComponent::class);
     Livewire::component('blog.posts-words-counter', PostsWordsCounter::class);
@@ -54,7 +60,6 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
     // load controllers
-
     $this->loadControllersFrom(__DIR__ . '/Http/Controllers');
 
 
