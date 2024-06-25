@@ -6,7 +6,7 @@ use PacificDev\BlogAi\Http\Controllers\Blog\Guest\PostController as BloggaiGuest
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use PacificDev\LaravelOpenAi\Services\OpenAi;
+use PacificDev\BlogAi\Services\OpenAi;
 use PacificDev\BlogAi\Livewire\Blog\PostsPage as PostsPage;
 use PacificDev\BlogAi\Livewire\Blog\Settings;
 /* Add the message in the messages table */

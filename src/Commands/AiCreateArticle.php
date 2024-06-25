@@ -168,7 +168,6 @@ class AiCreateArticle extends Command
     }
 
     /**
-     * @param  \PacificDev\LaravelOpenAi\Services\OpenAi  $ai
      */
     private function generateTitle($ai)
     {
@@ -223,7 +222,6 @@ class AiCreateArticle extends Command
     }
 
     /**
-     * @param  \PacificDev\LaravelOpenAi\Services\OpenAi  $ai
      */
     private function generateSummary($ai, $content)
     {
@@ -249,7 +247,6 @@ class AiCreateArticle extends Command
     }
 
     /**
-     * @param  \PacificDev\LaravelOpenAi\Services\OpenAi  $ai
      */
     private function generateContent($ai, $title)
     {

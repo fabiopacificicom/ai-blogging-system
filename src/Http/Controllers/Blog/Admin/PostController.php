@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use PacificDev\LaravelOpenAi\Services\OpenAi;
+use PacificDev\BlogAi\Services\OpenAi;
 
 class PostController extends Controller
 {
