@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Blade;
 use PacificDev\BlogAi\View\Components\Blog\PanelComponent;
 use PacificDev\BlogAi\Livewire\Blog\PostsWordsCounter;
 use Livewire\Livewire;
+use PacificDev\BlogAi\Livewire\Blog\CreatePostForm;
 use PacificDev\BlogAi\Livewire\Blog\PostStatusToggler;
 use PacificDev\BlogAi\Livewire\Blog\PostsToggler;
 use PacificDev\BlogAi\Livewire\Blog\SearchPosts;
@@ -43,6 +44,7 @@ class PacificDevServiceProvider extends ServiceProvider
     Livewire::component('blog.posts-toggler', PostsToggler::class);
     Livewire::component('blog.post-status-toggler', PostStatusToggler::class);
     Livewire::component('blog.search-posts', SearchPosts::class);
+    Livewire::component('blog.create', CreatePostForm::class);
 
 
     // Load views

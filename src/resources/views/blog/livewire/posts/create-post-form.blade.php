@@ -1,35 +1,69 @@
-<div class="modal-content bg-dark  text-white">
+<div class="modal-content bg-black text-white">
     <div class="modal-body">
 
-        <div class="input-group mb-3">
-            <input form="generate_post" type="text" name="title" id="title" class="form-control bg-dark text-white" placeholder="Generated title will be shown here" aria-describedby="helpId" x-model="title_prompt">
+        <header class="d-flex justify-content-between flex-wrap">
+            <div class="col-12 col-lg-8">
+                <h2 class="py-2 text-muted">Generate Blog Post</h2>
+                <p>Press generate for a complete draft ai generated</p>
+            </div>
+            <div class="py-2 filters d-flex align-items-start col-12 col-lg-4">
+                <div class="mb-3">
+                    <label for="" class="form-label">Model Name</label>
+                    <input class="form-control" type="text" wire:model="model_name">
+                </div>
 
-            <button class="btn btn-outline-light" type="button" @click="aiGenerate('title')">Generate Title</button>
+                <div class="m-1">
+                    <label for="" class="form-label">Length</label>
+                    <input type="number" min="2000" step="100" class="form-control" wire:model="max_tokens">
+                </div>
+                <div class="m-1">
+                    <label for="" class="form-label">Creativity</label>
+                    <small id="helpId" class="form-text text-muted">
+                        {{$temp}}
+
+                        @switch(true)
+
+                        @case($temp <= 0.7) <span class="badge bg-secondary">Normal</span>
+                            @break
+                        @case($temp > 0.8 && $temp <= 1.3) <span class="badge bg-success">Creative</span>
+                            @break
+                        @case($temp > 1.3 && $temp <= 1.7) <span class="badge bg-warning">Crazy</span>
+                            @break
+                        @case($temp >= 1.8) <span class="badge bg-danger">Drunk</span>
+                            @break
+
+                        @endswitch
+
+
+                    </small>
+                    <input class="form-range" type="range" name="temp" id="temp" aria-describedby="helpId" min="0" max="2" wire:model.live="temp" step="0.1" />
+
+                </div>
+
+            </div>
+        </header>
+
+        <div class="input-group mb-3">
+            <textarea class="form-control" name="postPrompt" id="postPrompt" placeholder="Type here a draft of what you want to write or just a short description" wire:model="prompt"></textarea>
+
+            <button class="btn btn-dark" type="button" @click="aiGenerate('title')">Draft</button>
         </div>
 
+        <p>Customize your post image below</p>
         <div class="input-group mb-3">
-            <input form="generate_post" type="text" name="image" id="image" class="form-control bg-dark text-white" placeholder="Write a descriptive text to generate an image" aria-describedby="helpId" x-model="prompt_image">
-            <input form="generate_post" type="text" name="cover_image" :value="cover_image_path" hidden>
-            <button class="btn btn-outline-light" type="button" @click="aiGenerate('image')">Generate Image</button>
+            <textarea class="form-control" name="imagePrompt" id="imagePrompt" placeholder="describe the image you want for this blog post" wire:model="imagePrompt"></textarea>
+            <button class="btn btn-dark" type="button" wire:click="generateImage()"> <i class="bi bi-image"></i></button>
         </div>
-        <img width="200" :src="'/storage' + cover_image_path" alt="" x-show="cover_image_path">
-
-        <div class="input-group mb-3">
-            <textarea form="generate_post" class="form-control bg-dark  text-white" name="summary" id="summary" rows="5" x-model="prompt_summary" placeholder="Generate a title before you can generate a summary"></textarea>
-            <button class="btn btn-outline-light" type="button" @click="aiGenerate('summary', title_prompt) " x-show="title_prompt">Generate Summary</button>
-        </div>
-
-        <div class="input-group mb-3">
-            <textarea form="generate_post" class="form-control bg-dark text-white" name="content" id="content" rows="5" x-model="prompt_content"></textarea>
-            <button class="btn btn-outline-light" type="button" @click="aiGenerate('content', title_prompt, prompt_summary)" x-show="prompt_summary">Generate Content</button>
-        </div>
+        @if($imagePath)
+        <img width="200" src="{{asset('/storage' . $imagePath)}}" alt="">
+        @endif
 
     </div>
     <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <form id="generate_post" action="{{route('admin.posts.store')}}" method="post">
-            @csrf
-            <button type="submit" class="btn btn-dark text-white">Generate</button>
-        </form>
+        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-dark text-white" wire:click="publish()">
+            Publish
+            <i class="bi bi-stars"></i>
+        </button>
     </div>
 </div>
