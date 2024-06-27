@@ -22,8 +22,6 @@ class CreatePostForm extends Component
     public $post;
 
 
-
-
     public function render()
     {
         return view('pacificdev::blog.livewire.posts.create-post-form')->layout('pacificdev::blog.layouts.components-admin');

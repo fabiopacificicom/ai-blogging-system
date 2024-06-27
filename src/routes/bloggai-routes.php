@@ -6,6 +6,7 @@ use PacificDev\BlogAi\Http\Controllers\Blog\Guest\PostController as BloggaiGuest
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use PacificDev\BlogAi\Livewire\Blog\EditPostForm;
 use PacificDev\BlogAi\Services\OpenAi;
 use PacificDev\BlogAi\Livewire\Blog\PostsPage as PostsPage;
 use PacificDev\BlogAi\Livewire\Blog\Settings;
@@ -18,7 +19,8 @@ Route::resource('posts', BloggaiGuestPostController::class)->parameters([
 Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('admin.')->group(function () {
 
     Route::get('posts', PostsPage::class)->name('posts.index');
-    Route::resource('posts', PostController::class)->except(['show', 'index'])->parameters([
+    Route:get('posts/{post:slug}/edit', EditPostForm::class)->name('posts.endit');
+    Route::resource('posts', PostController::class)->except(['show', 'index', 'edit'])->parameters([
         'posts' => 'post:slug',
     ]);
     Route::get('settings', Settings::class)->name('blog.settings');

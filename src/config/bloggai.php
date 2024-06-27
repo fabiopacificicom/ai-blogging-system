@@ -36,7 +36,7 @@ return [
       'artworker' => 'dalle-3',
       'create' => [
           'role' => 'system',
-          'content' => "Your task is to generate a blog post given the audience and user instructions. Format the response as JSON object with the folliwing keys: title, slug, content. Return the json object and nothing else."
+          'content' => "Your task is to generate a blog post given the audience and user instructions. Format the response as JSON object with the folliwing keys: title, slug, content, summary. Return the json object and nothing else."
       ],
       'title' => [
         'target_audience' => 'Audience: Web Developers.',
