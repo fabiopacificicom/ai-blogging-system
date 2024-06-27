@@ -69,8 +69,12 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadMiddlewareFrom(__DIR__ . '/Http/Middleware');
 
 
-    // Load Livewire
-    $this->loadLivewireComponentsFrom(__DIR__ . '/Livewire/Blog');
+    
+    // @deprecated Load Livewire
+    // Livewire classes are autoloaded from the package, there is no need to 
+    // copy the folder unless the user wants to override the package defaults.
+    // in such case it can be useful to just publish it using vendor:publish
+    //$this->loadLivewireComponentsFrom(__DIR__ . '/Livewire/Blog');
 
 
     // Add Commands to the app

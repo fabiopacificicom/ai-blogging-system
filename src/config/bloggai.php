@@ -34,6 +34,10 @@ return [
       'max_post_length' => 2500,
       'default_model' => 'gpt-4o',
       'artworker' => 'dalle-3',
+      'create' => [
+          'role' => 'system',
+          'content' => "Your task is to generate a blog post given the audience and user instructions. Format the response as JSON object with the folliwing keys: title, slug, content. Return the json object and nothing else."
+      ],
       'title' => [
         'target_audience' => 'Audience: Web Developers.',
         'prompt' => 'Given the following target audience and topic, generate a title for a blog post. Return the title as JSON object with the key title. Please return only the JSON object and nothing else.',

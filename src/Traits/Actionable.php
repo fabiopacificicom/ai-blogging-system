@@ -16,6 +16,9 @@ trait Actionable
       __DIR__ . '/../View/Components' => base_path('app/View/Components')
     ], 'pacificdev:ai-blog-components');
 
+    $this->publishes([
+      __DIR__ . '/../Livewire/Blog' => base_path('app/Livewire/Blog')
+    ], 'pacificdev:ai-blog-livewire-classes');
 
     // publish package assets for the admin and guest
     $this->publishes([
@@ -47,6 +50,7 @@ trait Actionable
     ], 'pacificdev:ai-blog-config');
   }
 
+  // @deprecated Load Livewire
   private function loadLivewireComponentsFrom($path)
   {
     // Verify that the destination directory exists or create it
