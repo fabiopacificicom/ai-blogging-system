@@ -7,9 +7,14 @@
         @if($post)
 
         <div class="metadata mt-2">
-            <h4 class="text-muted">
-                Title:{{$post->title}}
-                <span class="badge bg-primary">{{$post->status}}</span>
+            <h4 class="text-muted" x-data="{editTitle : false}">
+                <span x-on:click="editTitle = true">
+                    {{$post->title}}
+                </span>
+                <input type="text" name="title" id="title" v-model.blur="post.title" x-show="editTitle">
+                <span class="badge bg-primary" wire:click="unpublish">
+                    {{$post->status}}
+                </span>
             </h4>
             <h6>Slug: {{$post->slug}}</h6>
         </div>
@@ -31,12 +36,11 @@
                 <p>Press draft to regenerate the article</p>
 
                 <div class="input-group mb-3">
-                    <textarea class="form-control" name="postPrompt" id="postPrompt" placeholder="Type here a draft of what you want to write or just a short description" wire:model="prompt" rows="10"></textarea>
+                    <textarea class="form-control" wire:model="post.content" name="content" id="content" placeholder="Type here a draft of what you want to write or just a short description" rows="10"></textarea>
+                    <button class="btn btn-dark" type="button" wire:click="regenerateDraft" wire:loading.attr="disabled" wire:target="regenerateDraft">
 
-                    <button class="btn btn-dark" type="button" wire:click="generateDraft" wire:loading.attr="disabled" wire:target="generateDraft">
-
-                        <span class='' wire:loading.class.add="d-none" wire:target="generateDraft">Draft</span>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">processig...</span>
+                        <span class='' wire:loading.class.add="d-none" wire:target="regenerateDraft">Regenerate</span>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="regenerateDraft">processig...</span>
                     </button>
                 </div>
             </div>
@@ -67,16 +71,20 @@
 
                                     @switch(true)
 
-                                    @case($temp <= 0.7) <span class="badge bg-secondary">Normal</span>
-                                        @break
-                                        @case($temp > 0.8 && $temp <= 1.3) <span class="badge bg-success">Creative</span>
+                                        @case($temp <= 0.7) 
+                                            <span class="badge bg-secondary">Normal</span>
                                             @break
-                                            @case($temp > 1.3 && $temp <= 1.7) <span class="badge bg-warning">Crazy</span>
-                                                @break
-                                                @case($temp >= 1.8) <span class="badge bg-danger">Drunk</span>
-                                                @break
+                                        @case($temp > 0.8 && $temp <= 1.3) 
+                                            <span class="badge bg-success">Creative</span>
+                                            @break
+                                        @case($temp > 1.3 && $temp <= 1.7) 
+                                            <span class="badge bg-warning">Crazy</span>
+                                            @break
+                                        @case($temp >= 1.8) 
+                                            <span class="badge bg-danger">Drunk</span>
+                                            @break
 
-                                                @endswitch
+                                        @endswitch
 
 
                                 </small>
@@ -96,13 +104,13 @@
                 <img class="img-fluid" src="{{asset('/storage' . $post->cover_image)}}" alt="">
 
                 @endif
-                <p>Update your post image</p>
+                <p>Regenerate cover image</p>
                 <div class="input-group mb-3">
-                    <textarea class="form-control" name="imagePrompt" id="imagePrompt" placeholder="describe the image you want for this blog post" wire:model="imagePrompt" rows="3"></textarea>
-                    <button class="btn btn-dark" type="button" wire:click="generateImage" wire:loading.attr="disabled" wire:target="generateImage">
+                    <textarea class="form-control" wire:model="imagePrompt" name="cover_image" id="cover_image" placeholder="describe the image you want for this blog post"  rows="3"></textarea>
+                    <button class="btn btn-dark" type="button" wire:click="regenerateImage" wire:loading.attr="disabled" wire:target="regenerateImage">
 
-                        <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="generateImage"></i>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">procesing...</span>
+                        <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="regenerateImage"></i>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="regenerateImage">procesing...</span>
                     </button>
                 </div>
                 @if($imagePath)
@@ -115,11 +123,4 @@
 
     </div>
 
-    <div class="modal-footer border-0">
-        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-dark text-white" wire:click="publish" wire:target="publish" wire:loadig.attr="disabled">
-            Update
-            <i class="bi bi-stars d-none" wire:target="publish" wire:loadig.class.remove="d-none"></i>
-        </button>
-    </div>
 </div>
