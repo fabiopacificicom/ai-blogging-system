@@ -2,8 +2,11 @@
 
 namespace PacificDev\BlogAi\Traits;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\App;
+use PacificDev\BlogAi\Models\Post;
+use PacificDev\BlogAi\Services\OpenAi;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 trait Postable
 {
