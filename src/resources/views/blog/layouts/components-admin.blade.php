@@ -19,9 +19,7 @@
 
         <div class="container">
             <div class="row">
-                @include('pacificdev::blog.partials.sidebar')
-
-                <main class="col col-lg-9">
+                <main class="col-12">
                     {{$slot}}
                 </main>
             </div>

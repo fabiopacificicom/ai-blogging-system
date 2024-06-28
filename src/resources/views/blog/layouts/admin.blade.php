@@ -21,13 +21,12 @@
         <div class="container-fluid">
             <div class="row flex-row-reverse">
 
-                @include('pacificdev::blog.partials.sidebar')
                 <div class="col left-sidebar">
                     @yield('left-sidebar')
                 </div>
 
 
-                <main class="col-12 col-lg-8">
+                <main class="col-10">
                     @yield('content')
                 </main>
 

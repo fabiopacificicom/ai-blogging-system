@@ -14,15 +14,7 @@
                 {{ __('Dashboard') }}
             </span>
         </a>
-        @else
-        <a class="nav-link" href="{{url('/dashboard')}}">
-            <span class="icon">
-                <i class="bi bi-view-stacked"></i>
-            </span>
-            <span x-bind:class="{ 'd-none': !open }">
-                {{ __('Dashboard') }}
-            </span>
-        </a>
+       
         @endif
     </li>
 
