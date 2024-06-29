@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use PacificDev\BlogAi\Services\OpenAi;
 use PacificDev\BlogAi\Commands\BloggaiSocialShare;;
-
+use PacificDev\BlogAi\Models\Setting;
 /**
  * This is for laravel 10
  */
@@ -18,6 +18,12 @@ class Kernel extends ConsoleKernel
 
   protected $commands = [BloggaiSocialShare::class];
 
+
+
+
+
+
+
   /**
    * Define the application's command schedule.
    *
@@ -25,8 +31,16 @@ class Kernel extends ConsoleKernel
    */
   protected function schedule(Schedule $schedule)
   {
+
+
+    $postGenerationDays = Setting::get('post_generation_schedule_days', []);
+    $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
+    $postShareDays = Setting::get('post_share_schedule_days', []);
+    $postShareTime = Setting::get('post_share_schedule_time', '13:00');
+
+
     // $schedule->command('inspire')->hourly();
-    $schedule->command('bloggai:post')->weeklyOn([2, 3], '13:12');
+    $schedule->command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
 
     $schedule->call(function () {
       $latestPost = Post::where('status', 'public')->latest()->first();
@@ -64,7 +78,7 @@ class Kernel extends ConsoleKernel
             the social name should be dynamic and not hardcoded when multiple social will be available
             */
       $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
-    })->name('bloggai.share')->weeklyOn([3, 4], '09:00');
+    })->name('bloggai.share')->weeklyOn($postShareDays, $postShareTime);
   }
 
   /**

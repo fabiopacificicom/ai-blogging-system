@@ -23,6 +23,12 @@
 
     <h6>{{__('Blog Management')}}</h6>
 
+
+    <div class="card mb-3">
+        <livewire:blog.calendar></livewire:blog.calendar>
+
+    </div>
+
     <div class="card mb-3">
         <div class="card-body">
             <div class="accordion accordion-flush" id="ai-blog">

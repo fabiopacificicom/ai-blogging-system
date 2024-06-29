@@ -1,9 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Schedule;
+use PacificDev\BlogAi\Models\Setting;
+
+$postGenerationDays = Setting::get('post_generation_schedule_days', []);
+$postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
+$postShareDays = Setting::get('post_share_schedule_days', []);
+$postShareTime = Setting::get('post_share_schedule_time', '13:00');
 
 
-Schedule::command('bloggai:post')->weeklyOn([2, 3], '13:12');
+Schedule::command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
 
 Schedule::call(function () {
   $latestPost = Post::where('status', 'public')->latest()->first();
@@ -41,4 +47,4 @@ Schedule::call(function () {
             the social name should be dynamic and not hardcoded when multiple social will be available
             */
   $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
-})->name('bloggai.share')->weeklyOn([3, 4], '09:00');
+})->name('bloggai.share')->weeklyOn($postShareDays, $postShareTime);
