@@ -19,7 +19,7 @@ Route::resource('posts', BloggaiGuestPostController::class)->parameters([
 Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('admin.')->group(function () {
 
 
-    Route::redirect('/', 'settings', 301);
+    Route::redirect('/', '/blog-ai/settings', 301);
     Route::get('posts', PostsPage::class)->name('posts.index');
     Route:get('posts/{post:slug}/edit', EditPostForm::class)->name('posts.endit');
     Route::resource('posts', PostController::class)->except(['show', 'index', 'edit'])->parameters([

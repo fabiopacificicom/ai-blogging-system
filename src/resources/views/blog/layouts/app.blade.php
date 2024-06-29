@@ -32,7 +32,7 @@
             <nav class="navbar">
                 <div class="container-fluid">
                     <a wire:navigate class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                        <i class="bi bi-robot"></i>
+                        <img src="{{asset('images/vendor/pacificdev/blog-ai/logo.png')}}" alt="">
                         @guest
                         <span>{{ config('app.name', 'Fab-Ai') }}</span>
                         @else
@@ -95,12 +95,12 @@
                                 @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <img width="30" class="rounded-circle" src="{{asset('storage' . Auth::user()->profile_image)}}" alt="">
+                                        <img width="30" class="rounded-circle" src="{{ Auth::user()?->profile_image ? asset('storage' . Auth::user()->profile_image) : asset('images/vendor/pacificdev/blog-ai/logo.png')}}" alt="">
                                         {{ Auth::user()->name }}
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ url('admin') }}">{{__('Dashboard')}}</a>
+                                        <a class="dropdown-item" href="{{ url('/blog-ai') }}">{{__('Dashboard')}}</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
