@@ -98,7 +98,14 @@
     </div>
 
     <div class="modal-footer border-0">
+        @if(Route::currentRouteName() === 'admin.posts.create')
+        <a type="button" class="btn" href="{{route('admin.posts.index')}}">
+            <i class="bi bi-arrow-left"></i>
+            Back
+        </a>
+        @else
         <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+        @endif
         <button type="submit" class="btn btn-dark text-white" wire:click="publish()" wire:target="publish" wire:loadig.attr="disabled">
             Publish
             <i class="bi bi-stars d-none" wire:target="publish" wire:loadig.class.remove="d-none"></i>
