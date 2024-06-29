@@ -6,11 +6,6 @@
             <i class="bi bi-pencil" x-bind:class="{ 'bi-x': editTitle }" x-on:click="editTitle = !editTitle" title="edit title"></i>
             <template x-if="editTitle">
                 <input type="text" class="form-control" name="title" id="title" wire:model.blur="title">
-                @error('title')
-                <div class="alert alert-danger" role="alert">
-                    <strong>Error</strong> {{$message}}
-                </div>
-                @enderror
             </template>
             <template x-if="!editTitle">
                 <h4 class="text-muted">
@@ -24,6 +19,11 @@
                     </span>
                 </h4>
             </template>
+            @error('title')
+            <div class="alert alert-danger" role="alert">
+                <strong>Error</strong> {{$message}}
+            </div>
+            @enderror
             <h6>Slug: {{$post->slug}}</h6>
         </div>
 
@@ -33,14 +33,13 @@
                 <p>Press regenarate to create recreate the article using the current content.</p>
 
                 <div class="mb-3">
-                    <textarea class="form-control" wire:model="prompt" name="content" id="content" placeholder="Type here a draft of what you want to write or just a short description" rows="20"></textarea>
-
-                    @error('prompt')
-                    <div class="alert alert-danger" role="alert">
-                        <strong>Error</strong> {{$message}}
-                    </div>
-                    @enderror
+                    <textarea class="form-control" wire:model.live.debounce.1500ms="content" name="content" id="content" placeholder="Type here a draft of what you want to write or just a short description" rows="20"></textarea>
                 </div>
+                @error('content')
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error</strong> {{$message}}
+                </div>
+                @enderror
 
 
                 <div class="actions my-2 d-flex justify-content-between">
@@ -74,11 +73,21 @@
                                 <label for="" class="form-label">Model Name</label>
                                 <input class="form-control" type="text" wire:model.trim="model_name">
                             </div>
+                            @error('model_name')
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error</strong> {{$message}}
+                            </div>
+                            @enderror
 
                             <div class="m-1">
                                 <label for="" class="form-label">Length</label>
                                 <input type="number" min="2000" step="100" class="form-control" wire:model="max_tokens">
                             </div>
+                            @error('max_tokens')
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error</strong> {{$message}}
+                            </div>
+                            @enderror
 
                             <div class="m-1">
                                 <label for="" class="form-label">Creativity</label>
@@ -102,12 +111,12 @@
 
                                 </small>
                                 <input class="form-range" type="range" name="temp" id="temp" aria-describedby="helpId" min="0" max="2" wire:model.live="temp" step="0.1" />
-                                @error('temp')
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>Error</strong> {{$message}}
-                                </div>
-                                @enderror
                             </div>
+                            @error('temp')
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error</strong> {{$message}}
+                            </div>
+                            @enderror
                         </div>
 
                     </template>
@@ -123,20 +132,20 @@
                 @endif
                 <p>Regenerate cover image</p>
                 <div class="input-group mb-3">
-                    <textarea class="form-control" wire:model="imagePrompt" name="cover_image" id="cover_image" placeholder="describe the image you want for this blog post" rows="3"></textarea>
-                    <button class="btn btn-dark" type="button" wire:click="regenerateImage" wire:loading.attr="disabled" wire:target="regenerateImage">
+                    <textarea class="form-control" wire:model.live.debounce.1000ms="cover_image" name="cover_image" id="cover_image" placeholder="describe the image you want for this blog post" rows="3"></textarea>
+                    <button class="btn btn-dark" type="button" wire:click="generateImage" wire:loading.attr="disabled" wire:target="generateImage">
 
-                        <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="regenerateImage"></i>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="regenerateImage">procesing...</span>
+                        <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="generateImage"></i>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">procesing...</span>
                     </button>
-                    @error('cover_image')
-                    <div class="alert alert-danger" role="alert">
-                        <strong>Error</strong> {{$message}}
-                    </div>
-                    @enderror
                 </div>
+                @error('cover_image')
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error</strong> {{$message}}
+                </div>
+                @enderror
                 @if($imagePath != $post->cover_image)
-                <img width="200" src="{{asset('/storage' . $imagePath)}}" alt="">
+                <img width="200" src="{{asset('/storage/' . $imagePath)}}" alt="">
                 @endif
 
 

@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Storage;
 class CreatePostForm extends Component
 {
 
-    public $prompt = '';
-    public $imagePrompt = 'Developer i a dark room';
+    public $content = '';
+    public $cover_image = 'Developer i a dark room';
     public $imagePath;
     public $draft = [];
     public $error = [];
@@ -36,21 +36,22 @@ class CreatePostForm extends Component
     {
         if ($property === 'draft') {
             dd($this->draft);
-            $this->prompt = in_array('content', $this->draft) ? $this->draft['content'] : $this->prompt;
+            $this->content = in_array('content', $this->draft) ? $this->draft['content'] : $this->content;
         }
     }
 
     public function generateImage(OpenAi $ai)
     {
-        //dd($this->imagePrompt);
+        //dd($this->cover_image);
         try {
-            $cover_image_stream = $ai->generateImages("$this->imagePrompt");
+            $cover_image_stream = $ai->generateImages("$this->cover_image");
             //dd($cover_image_stream);
             $cover_image = '/images/' . uniqid('aimg_') . '.jpeg';
 
             Storage::put($cover_image, $cover_image_stream);
 
             $this->imagePath = $cover_image;
+            $this->draft['cover_image'] = $this->imagePath;
         } catch (\Throwable $th) {
             $this->error['image'] = 'Sorry, there has been an error with your request' . $th->getMessage();
         }
@@ -61,12 +62,13 @@ class CreatePostForm extends Component
         // validate the prompts
         $this->validate(
             [
-                'prompt' => 'required|min:5|max:' . $this->max_tokens,
-                'imagePrompt' => 'required'
+                'content' => ['required', 'min:5', 'max:' . intVal($this->max_tokens), 'unique:posts,title,except,' . $this->post?->id ],
+                'cover_image' => 'required'
             ]
         );
         $payload = $this->setPayload();    
         // get the response
+        //dd($payload);
         $response =  $ai->chat($payload);
         // handle errors
         $this->handleErrorsGracefully($response->json());
@@ -90,7 +92,7 @@ class CreatePostForm extends Component
         $this->draft['cover_image'] = $this->imagePath;
         // Set the article to public
         $this->draft['status'] = 'public';
-        $this->draft['content'] = $this->prompt;
+        $this->draft['content'] = $this->content;
         $post = Post::find($this->post->id);
         $post->update($this->draft);
         return back()->with('message', 'Post Published');
@@ -99,13 +101,18 @@ class CreatePostForm extends Component
 
 
     private function generatePost($responseArray){
+        
         $postData = json_decode($responseArray['choices'][0]['message']['content'], true);
         //dd($postData);
         $this->draft = $postData;
-        $this->prompt = $this->draft['content'];
+        $this->content = $this->draft['content'];
         // store the draft in the database
 
-        $this->post = Post::create($postData);
+        if(!$this->post) {
+            $this->post = Post::create($postData);
+        } else {
+            $this->post->update($postData);
+        }
         return back()->with('message', 'Post Generation completed');
     }
 
@@ -129,8 +136,8 @@ class CreatePostForm extends Component
         // set the payload
         $payload = [
             'model' => $this->model_name,
-            'temperature' => intVal($this->temp),
-            'max_tokens' => $this->max_tokens,
+            'temperature' => floatVal($this->temp),
+            'max_tokens' => intVal($this->max_tokens),
             'response_format' => ['type' => 'json_object'],
             'messages' => [
                 config('bloggai.presets.system'),
@@ -139,7 +146,7 @@ class CreatePostForm extends Component
                     'role' => 'user',
                     'content' => "
                     ## Audience\n\n $audience \n\n 
-                    ## Instructions \n\n" . $this->prompt
+                    ## Instructions \n\n" . $this->content
                 ]
             ]
         ];

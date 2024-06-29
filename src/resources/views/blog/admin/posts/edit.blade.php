@@ -1,11 +1,5 @@
 @extends('pacificdev::blog.layouts.admin')
 
-@section('styles')
-@vite([
-'resources/js/blog/editPostMarkdownEditor.js',
-])
-@endsection
-
 @section('content')
 <div class="container mt-5">
     @include('pacificdev::blog.partials.session')

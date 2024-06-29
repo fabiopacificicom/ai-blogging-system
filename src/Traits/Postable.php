@@ -10,17 +10,36 @@ use Illuminate\Support\Facades\Storage;
 
 trait Postable
 {
+    public $content = '';
+    public $cover_image = 'Black bombay and european cats';
+    public $imagePath;
+    public $draft = [];
+    public $error = [];
+    public $temp = 0.4;
+    public $max_tokens = 2500;
+    public $model_name;
+    public Post $post;
+    public $title;
+
+
     public function generateImage(OpenAi $ai)
     {
-        //dd($this->imagePrompt);
+        //dd($this->cover_image);
         try {
-            $cover_image_stream = $ai->generateImages("$this->imagePrompt");
+            $cover_image_stream = $ai->generateImages("$this->cover_image");
             //dd($cover_image_stream);
             $cover_image = '/images/' . uniqid('aimg_') . '.jpeg';
 
             Storage::put($cover_image, $cover_image_stream);
 
             $this->imagePath = $cover_image;
+            $this->draft['cover_image'] = $cover_image;
+            
+            if($this->post->cover_image) {
+                $this->post->update([
+                    'cover_image' => $cover_image
+                ]);
+            }
         } catch (\Throwable $th) {
             $this->error['image'] = 'Sorry, there has been an error with your request' . $th->getMessage();
         }
@@ -28,15 +47,17 @@ trait Postable
 
     public function generateDraft(OpenAi $ai)
     {
+        //dd('here');
         // validate the prompts
         $this->validate(
             [
-                'prompt' => 'required|min:5|max:' . $this->max_tokens,
-                'imagePrompt' => 'required'
+                'content' => 'required|min:5|max:' . intVal($this->max_tokens),
+                'cover_image' => 'required'
             ]
         );
         $payload = $this->setPayload();    
         // get the response
+        //dd($payload);
         $response =  $ai->chat($payload);
         // handle errors
         $this->handleErrorsGracefully($response->json());
@@ -60,7 +81,7 @@ trait Postable
         $this->draft['cover_image'] = $this->imagePath;
         // Set the article to public
         $this->draft['status'] = 'public';
-        $this->draft['content'] = $this->prompt;
+        $this->draft['content'] = $this->content;
         $post = Post::find($this->post->id);
         $post->update($this->draft);
         return back()->with('message', 'Post Published');
@@ -72,10 +93,13 @@ trait Postable
         $postData = json_decode($responseArray['choices'][0]['message']['content'], true);
         //dd($postData);
         $this->draft = $postData;
-        $this->prompt = $this->draft['content'];
+        $this->content = $this->draft['content'];
         // store the draft in the database
-
-        $this->post = Post::create($postData);
+        if (!$this->post) {
+            $this->post = Post::create($postData);
+        } else {
+            $this->post->update($postData);
+        }
         return back()->with('message', 'Post Generation completed');
     }
 
@@ -99,8 +123,8 @@ trait Postable
         // set the payload
         $payload = [
             'model' => $this->model_name,
-            'temperature' => intVal($this->temp),
-            'max_tokens' => $this->max_tokens,
+            'temperature' => floatval($this->temp),
+            'max_tokens' => intVal($this->max_tokens),
             'response_format' => ['type' => 'json_object'],
             'messages' => [
                 config('bloggai.presets.system'),
@@ -109,7 +133,7 @@ trait Postable
                     'role' => 'user',
                     'content' => "
                     ## Audience\n\n $audience \n\n 
-                    ## Instructions \n\n" . $this->prompt
+                    ## Instructions \n\n" . $this->content
                 ]
             ]
         ];

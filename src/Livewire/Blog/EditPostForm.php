@@ -13,16 +13,6 @@ use PacificDev\BlogAi\Traits\Postable;
 class EditPostForm extends Component
 {
     use Postable;
-    public $prompt = '';
-    public $imagePrompt = '';
-    public $imagePath;
-    public $draft = [];
-    public $error = [];
-    public $temp = 0.4;
-    public $max_tokens = 2500;
-    public $model_name;
-    public Post $post;
-    public $title;
 
 
     public function render()
@@ -41,7 +31,7 @@ class EditPostForm extends Component
         //dd($this->draft);
         $this->post = $post;
         $this->title = $post->title;
-        $this->prompt = $post->content;
+        $this->content = $post->content;
         $this->imagePath = $post->cover_image;
         $this->model_name = config('bloggai.presets.blog.default_model');
         $this->max_tokens = config('bloggai.presets.blog.max_post_length');
@@ -53,6 +43,13 @@ class EditPostForm extends Component
         //dd($name, $value);
         // if the form input under update is the title
         // we need to regenerate also its slug
+
+        if($name == 'cover_image') {
+            $value = $this->imagePath;
+        }
+
+        //dd($name, $value);
+
         if ($name == 'title') {
 
             $this->validate([
