@@ -18,11 +18,14 @@ Route::resource('posts', BloggaiGuestPostController::class)->parameters([
 
 Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('admin.')->group(function () {
 
+
+    Route::redirect('/', 'settings', 301);
     Route::get('posts', PostsPage::class)->name('posts.index');
     Route:get('posts/{post:slug}/edit', EditPostForm::class)->name('posts.endit');
     Route::resource('posts', PostController::class)->except(['show', 'index', 'edit'])->parameters([
         'posts' => 'post:slug',
     ]);
+
     Route::get('settings', Settings::class)->name('blog.settings');
     Route::post('posts/settings', [PostController::class, 'settings'])->name('posts.settings.store');
 
@@ -116,5 +119,6 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
     /* Linkedin Share Routes */
     // Linkedin share oAuth - redirects the user to the linkedin login page to authorize our app.
     Route::get('linkedin/auth', [SocialController::class, 'handleLinkedinAuthentication'])->name('linkedin.auth');
+
 });
 Route::get('linkedin/auth/callback', [SocialController::class, 'handleLinkedinCallback']);
