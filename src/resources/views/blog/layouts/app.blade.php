@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{asset('css/vendor/pacificdev/blog-ai/prism.css')}}">
     <script src="{{asset('js/vendor/pacificdev/blog-ai/prism.js')}}" defer></script>
 
-    @stack('styles')
+    @yield('styles')
 </head>
 
 <body>

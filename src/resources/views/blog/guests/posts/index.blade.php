@@ -1,6 +1,7 @@
 @extends('pacificdev::blog.layouts.app')
 
-@push('styles')
+@section('styles')
+
 <style>
     [x-cloak] {
         display: none !important;
@@ -45,7 +46,7 @@
         }
     }
 </style>
-@endpush
+@endsection
 
 
 @section('content')
