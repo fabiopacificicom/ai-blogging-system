@@ -13,8 +13,8 @@ import { Livewire, Alpine } from '~resources/../vendor/livewire/livewire/dist/li
 /* import theme from '../alpine/theme.js';
 Alpine.data('theme', theme); */
 
-import postgen from './postgen.js';
-Alpine.data('postgen', postgen);
+/* import postgen from './postgen.js';
+Alpine.data('postgen', postgen); */
 
 
 Livewire.start();
