@@ -64,8 +64,8 @@
         </div>
 
         <div class="my-4 p-4 bg-info-dark rounded-3 d-flex flex-column align-items-center gap-4">
-            <img width="100" src="{{asset('fabio_pacifici.jpg' )}}" alt="Fabio Pacifici Profile Image" class="rounded-3">
-            <p class="lead">{{__('Hi 👋, you can find me also: ')}}</p>
+            <img width="60" src="{{asset('images/vendor/pacificdev/blog-ai/logo.png' )}}" alt="logo" class="rounded-3">
+            <p class="lead">{{__('Find us online ')}}</p>
             <div class="call_to_action">
                 <a class="btn rounded-pill bg-primary-subtle mb-1" href="https://fabiopacifici.com/blog" target="_blank">
                     {{__('Blog')}}
