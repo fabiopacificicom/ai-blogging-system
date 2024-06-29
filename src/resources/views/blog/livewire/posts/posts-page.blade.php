@@ -83,7 +83,7 @@
                 @forelse($posts as $post)
                 <tr :key="$post->id">
                     <td scope="row" class="d-none d-sm-table-cell">
-                        <img class="img-fluid object-fit-cover" width="50" src="{{asset('storage' . $post->cover_image)}}" alt="">
+                        <img class="img-fluid object-fit-cover" width="140" src="{{asset('storage' . $post->cover_image)}}" alt="">
                     </td>
                     <td>
                         {{$post->title}}
