@@ -81,10 +81,6 @@ class PostController extends Controller
         return to_route('admin.posts.index')->with('message', 'Post Generated Successfully');
     }
 
-    public function settings(Request $request)
-    {
-        dd($request);
-    }
 
     /**
      * Show the form for editing the specified resource.

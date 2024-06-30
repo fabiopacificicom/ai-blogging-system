@@ -32,12 +32,14 @@ trait Postable
             $cover_image = '/images/' . uniqid('aimg_') . '.jpeg';
 
             Storage::put($cover_image, $cover_image_stream);
-            
+            session()->flash('message', 'Image Generated');
             // Optimize the image
             Log::info('optimization start');
+            session()->flash('message', 'Image Optimization started');
             $optimizerChain = OptimizerChainFactory::create();
             $optimizerChain->optimize(public_path('storage/' . $cover_image));
             Log::info('optimization complete', ['path' => $cover_image]);
+            session()->flash('message', 'Image Optimization Completed');
 
             // updte the image path to return the new generated image to the user
             $this->imagePath = $cover_image;

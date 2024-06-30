@@ -27,8 +27,6 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
     ]);
 
     Route::get('settings', Settings::class)->name('blog.settings');
-    Route::post('posts/settings', [PostController::class, 'settings'])->name('posts.settings.store');
-
     Route::post('ai/blog', function (Request $request, OpenAi $ai) {
         // Requests that reach this endpoint will either want to generate a
         // - post title

@@ -7,7 +7,8 @@ use Livewire\Component;
 use Illuminate\Support\Arr;
 use PacificDev\BlogAi\Models\Topic;
 use Illuminate\Support\Str;
-
+use PacificDev\BlogAi\Jobs\ProcessImageOptimization;
+use Illuminate\Support\Facades\Storage;
 class Settings extends Component
 {
 
@@ -15,9 +16,34 @@ class Settings extends Component
     public $topics;
     #[Rule('nullable')]
     public $inRandomOrder;
+    public $imagesOptimizationStatus = false;
+
+
+    public function mount()
+    {
+
+        $topics = Topic::where('active', 1)->orderByDesc('updated_at')->get();
+
+
+        $this->inRandomOrder = true;
+
+        if ($topics->count() === 0) {
+            $this->topics = Arr::join(config('bloggai.presets.blog.topics'), ",\n");
+        } else {
+            $this->topics =  Arr::join($topics->pluck('name')->toArray(), "\n");
+        }
+
+        //dd($this->topics);
+    }
 
 
 
+    public function render()
+    {
+        return view('pacificdev::blog.livewire.settings')->layout('pacificdev::blog.layouts.components-admin');
+    }
+
+    
     public function updateTopicsList()
     {
         // validate the user inputs
@@ -49,28 +75,15 @@ class Settings extends Component
         $this->redirect('/blog-ai/settings', true);
     }
 
-
-    public function mount()
+    public function optimizeImages()
     {
 
-        $topics = Topic::where('active', 1)->orderByDesc('updated_at')->get();
-
-
-        $this->inRandomOrder = true;
-
-        if ($topics->count() === 0) {
-            $this->topics = Arr::join(config('bloggai.presets.blog.topics'), ",\n");
-        } else {
-            $this->topics =  Arr::join($topics->pluck('name')->toArray(), "\n");
+        $images = Storage::allFiles('images/');
+        $this->imagesOptimizationStatus = 'processing';
+        foreach ($images as $image_path) {
+            ProcessImageOptimization::dispatch($image_path);
         }
-
-        //dd($this->topics);
+        $this->imagesOptimizationStatus = 'completed';
     }
 
-
-
-    public function render()
-    {
-        return view('pacificdev::blog.livewire.settings')->layout('pacificdev::blog.layouts.components-admin');
-    }
 }
