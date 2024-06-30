@@ -1,21 +1,16 @@
 import '~resources/js/bootstrap';
 import * as bootstrap from 'bootstrap';
 import '~icons/bootstrap-icons.scss';
+import { helix, hourglass } from 'ldrs'
 
+helix.register()
+hourglass.register()
 import.meta.glob([
     '../img/**'
 ]);
 
 
-import { Livewire, Alpine } from '~resources/../vendor/livewire/livewire/dist/livewire.esm';
-
-/* DarkMode Keep for both guests/admin */
-/* import theme from '../alpine/theme.js';
-Alpine.data('theme', theme); */
-
-import postgen from './postgen.js';
-Alpine.data('postgen', postgen);
-
+import { Livewire } from '~resources/../vendor/livewire/livewire/dist/livewire.esm';
 
 Livewire.start();
 

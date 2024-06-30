@@ -3,11 +3,12 @@
 
         <div class="dropdown open">
             <button class="btn btn-white border-0 dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img width="40" src="{{asset('images/vendor/pacificdev/blog-ai/logo.png')}}" alt="">
                 {{ __('Hi, ') . Auth::user()->name}}
             </button>
             <div class="dropdown-menu border-0 shadow" aria-labelledby="triggerId">
-                <a wire:navigate class="dropdown-item" href="{{ url('/') }}">{{__('Blog')}}</a>
-                <a wire:navigate class="dropdown-item" href="{{ url('admin') }}">{{__('Dashboard')}}</a>
+                <a wire:navigate class="dropdown-item" href="{{ route('posts.index') }}">{{__('Blog')}}</a>
+                <a wire:navigate class="dropdown-item" href="{{ route('admin.posts.index') }}">{{__('Dashboard')}}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}

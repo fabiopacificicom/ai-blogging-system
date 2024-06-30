@@ -17,6 +17,9 @@ use PacificDev\BlogAi\Livewire\Blog\EditPostForm;
 use PacificDev\BlogAi\Livewire\Blog\PostStatusToggler;
 use PacificDev\BlogAi\Livewire\Blog\PostsToggler;
 use PacificDev\BlogAi\Livewire\Blog\SearchPosts;
+use PacificDev\BlogAi\Livewire\Blog\PostsCalendar;
+use PacificDev\BlogAi\Livewire\Blog\PostsPage;
+use PacificDev\BlogAi\Livewire\Blog\Settings;
 
 class PacificDevServiceProvider extends ServiceProvider
 {
@@ -33,6 +36,7 @@ class PacificDevServiceProvider extends ServiceProvider
   public function boot()
   {
 
+    $this->loadPackages();
 
     $this->loadDefaultSheduler();
 
@@ -47,6 +51,12 @@ class PacificDevServiceProvider extends ServiceProvider
     Livewire::component('blog.search-posts', SearchPosts::class);
     Livewire::component('blog.create', CreatePostForm::class);
     Livewire::component('blog.edit', EditPostForm::class);
+    Livewire::component('blog.calendar', PostsCalendar::class);
+    Livewire::component('blog.settings', Settings::class);
+    Livewire::component('blog.posts', PostsPage::class);
+
+
+
 
 
     // Load views
@@ -88,4 +98,9 @@ class PacificDevServiceProvider extends ServiceProvider
       ]);
     }
   }
+
+
+  
+
+
 }

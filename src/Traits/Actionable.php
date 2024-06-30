@@ -9,6 +9,21 @@ trait Actionable
 {
 
 
+  private function loadPackages()
+  {
+
+
+    $packageJson = json_decode(file_get_contents(base_path('package.json')), true);
+
+    //dd($packageJson, array_key_exists('ldrs', $packageJson['dependencies'])); //array, false
+
+    // set loaders package
+    if (!array_key_exists('ldrs', $packageJson['dependencies'])) {
+      $packageJson['dependencies']['ldrs'] = '^1.0.1';
+      file_put_contents(base_path('package.json'), json_encode($packageJson));
+    }
+  }
+
   private function publishPackageFiles()
   {
 
@@ -24,11 +39,8 @@ trait Actionable
     $this->publishes([
       // Admin assets 
       __DIR__ . '/../resources/admin/js/admin.js' => resource_path('js/vendor/pacificdev/blog-ai/admin.js'),
-      __DIR__ . '/../resources/admin/js/postgen.js' => resource_path('js/vendor/pacificdev/blog-ai/postgen.js'),
       __DIR__ . '/../resources/admin/scss/admin.scss' => resource_path('scss/vendor/pacificdev/blog-ai/admin.scss'),
-      __DIR__ . '/../resources/admin/css/toastui-editor-dark.css' => resource_path('css/vendor/pacificdev/blog-ai/toastui-editor-dark.css'),
-      __DIR__ . '/../resources/admin/css/toastui-editor.css' => resource_path('css/vendor/pacificdev/blog-ai/toastui-editor.css'),
-
+      
       // Guests assets
       __DIR__ . '/../resources/guest/js/app.js' => resource_path('js/vendor/pacificdev/blog-ai/app.js'),
       __DIR__ . '/../resources/guest/scss/app.scss' => resource_path('scss/vendor/pacificdev/blog-ai/app.scss'),
@@ -36,6 +48,11 @@ trait Actionable
       // Common assets
       __DIR__ . '/../resources/common/js/prism.js' => public_path('js/vendor/pacificdev/blog-ai/prism.js'),
       __DIR__ . '/../resources/common/css/prism.css' => public_path('css/vendor/pacificdev/blog-ai/prism.css'),
+
+      // Images
+      __DIR__ . '/../resources/images/logo.png' => public_path('images/vendor/pacificdev/blog-ai/logo.png')
+
+
 
     ], 'pacificdev:ai-blog-assets');
 

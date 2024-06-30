@@ -1,7 +1,12 @@
 @extends('pacificdev::blog.layouts.app')
 
-@push('styles')
+@section('styles')
+
 <style>
+    [x-cloak] {
+        display: none !important;
+    }
+
     @media (prefers-color-scheme: light) {
         main {
             background-color: #ededed;
@@ -41,12 +46,12 @@
         }
     }
 </style>
-@endpush
+@endsection
 
 
 @section('content')
 
-<div class="jumbotron p-5 bg-black text-white rounded-0" style="background-image: url('{{ $posts[count($posts) - 1]?->coverImagePath() }}');">
+<div class="jumbotron p-5 bg-black text-white rounded-0" style="background-image: url('{{ $posts[count($posts) - 1]?->coverImagePath() }}');" x-data x-cloak>
 
     <div class="container py-5">
         <h1 class="display-3 fw-bold">
@@ -84,7 +89,7 @@
             @unless ($post->status === 'draft')
             <div class="col-12">
                 <div class="card rounded-4 shadow h-100 position-relative">
-                    <img style="object-fit: cover" width="320" height="320" src="{{ asset('storage' . $post->cover_image) }}" loading="{{$index > 6 ? 'lazy' : ''}}" alt="Post {{$post->title}} Cover Image" class="card-img-top rounded-4">
+                    <img style="object-fit: cover" width="320" height="320" src="{{ asset('storage' . $post->cover_image) }}" loading="lazy" alt="Post {{$post->title}} Cover Image" class="card-img-top rounded-4">
                     <div class="card-body position-absolute w-100 h-100 d-flex flex-column justify-content-between">
 
                         <div class="datails">

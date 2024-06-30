@@ -33,12 +33,16 @@
                 <p>Press generate for a complete draft ai generated</p>
 
                 <div class="input-group mb-3">
-                    <textarea class="form-control" name="postPrompt" id="postPrompt" placeholder="Type here a draft of what you want to write or just a short description" wire:model="prompt" rows="10"></textarea>
+                    <textarea class="form-control" name="content" id="content" placeholder="Type here a draft of what you want to write or just a short description" wire:model="content" rows="10"></textarea>
 
                     <button class="btn btn-dark" type="button" wire:click="generateDraft" wire:loading.attr="disabled" wire:target="generateDraft">
 
                         <span class='' wire:loading.class.add="d-none" wire:target="generateDraft">Draft</span>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">processig...</span>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">
+                            <l-hourglass size="40" bg-opacity="0.1" speed="1.75" color="white"></l-hourglass>
+                            <br>
+                            {{__('wait')}}
+                        </span>
                     </button>
                 </div>
             </div>
@@ -46,16 +50,16 @@
             <div class="side col-12 col-lg-4 order-first order-lg-last">
                 <div class="filters">
                     <div class="mb-3">
-                        <label for="" class="form-label">Model Name</label>
-                        <input class="form-control" type="text" wire:model.trim="model_name">
+                        <label for="model_name" class="form-label">Model Name</label>
+                        <input id="model_name" class="form-control" type="text" wire:model.trim="model_name">
                     </div>
 
                     <div class="m-1">
-                        <label for="" class="form-label">Length</label>
-                        <input type="number" min="2000" step="100" class="form-control" wire:model="max_tokens">
+                        <label for="max_tokens" class="form-label">Length</label>
+                        <input id="max_tokens" type="number" min="2000" step="100" class="form-control" wire:model="max_tokens">
                     </div>
                     <div class="m-1">
-                        <label for="" class="form-label">Creativity</label>
+                        <label for="temp" class="form-label">Creativity</label>
                         <small id="helpId" class="form-text text-muted">
                             {{$temp}}
 
@@ -81,11 +85,15 @@
 
                 <p>Customize your post image below</p>
                 <div class="input-group mb-3">
-                    <textarea class="form-control" name="imagePrompt" id="imagePrompt" placeholder="describe the image you want for this blog post" wire:model="imagePrompt" rows="3"></textarea>
+                    <textarea class="form-control" name="cover_image" id="cover_image" placeholder="describe the image you want for this blog post" wire:model="cover_image" rows="3"></textarea>
                     <button class="btn btn-dark" type="button" wire:click="generateImage" wire:loading.attr="disabled" wire:target="generateImage">
 
                         <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="generateImage"></i>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">procesing...</span>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">
+                            <l-helix size="45" speed="2.5" color="white"></l-helix>
+                            <br>
+                            {{__('wait')}}
+                        </span>
                     </button>
                 </div>
                 @if($imagePath)
@@ -98,7 +106,14 @@
     </div>
 
     <div class="modal-footer border-0">
+        @if(Route::currentRouteName() === 'admin.posts.create')
+        <a type="button" class="btn" href="{{route('admin.posts.index')}}">
+            <i class="bi bi-arrow-left"></i>
+            Back
+        </a>
+        @else
         <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+        @endif
         <button type="submit" class="btn btn-dark text-white" wire:click="publish()" wire:target="publish" wire:loadig.attr="disabled">
             Publish
             <i class="bi bi-stars d-none" wire:target="publish" wire:loadig.class.remove="d-none"></i>

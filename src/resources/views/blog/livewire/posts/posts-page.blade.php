@@ -59,9 +59,9 @@
         </div>
     </div>
     <!-- Posts Table -->
-    <div class="table-responsive-sm">
-        <table class="table table-striped table-hover align-middle table-borderless rounded" class="bg-secondary-subtle">
-            <thead class="rounded-top rounded-lg border-bottom border-secondary-subtle">
+    <div class="table-responsive-sm py-1 my-3 bg-dark rounded">
+        <table class="table table-striped table-hover align-middle table-borderless" class="bg-secondary-subtle">
+            <thead class="border-bottom border-secondary-subtle">
                 <tr class="fs_sm">
                     <th class="d-none d-sm-table-cell">Image</th>
                     <th class="w-75">Title
@@ -83,7 +83,7 @@
                 @forelse($posts as $post)
                 <tr :key="$post->id">
                     <td scope="row" class="d-none d-sm-table-cell">
-                        <img class="img-fluid object-fit-cover" width="50" src="{{asset('storage' . $post->cover_image)}}" alt="">
+                        <img class="img-fluid object-fit-cover" width="140" src="{{asset('storage' . $post->cover_image)}}" alt="">
                     </td>
                     <td>
                         {{$post->title}}
@@ -163,14 +163,28 @@
                 @endforelse
 
             </tbody>
-
+            <tfoot class="border-top border-secondary-subtle">
+                <tr class="fs_sm">
+                    <th class="d-none d-sm-table-cell">Image</th>
+                    <th class="w-75">Title
+                        <i class="bi bi-sort-alpha-down text-muted"></i>
+                    </th>
+                    <th class="d-none d-sm-table-cell">
+                        <span class="d-flex"><span>Author</span> <i class="bi bi-funnel text-muted"></i></span>
+                    </th>
+                    <th>
+                        <span class="d-flex"><span>Status</span> <i class="bi bi-funnel text-muted"></i></span>
+                    </th>
+                    <th>
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
         <div>
             {{$posts->links('pagination::bootstrap-5')}}
         </div>
 
     </div>
-
-
 
 </div>

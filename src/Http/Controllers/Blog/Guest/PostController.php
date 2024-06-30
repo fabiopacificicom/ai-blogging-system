@@ -18,6 +18,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::where('status', 'public')->orderByDesc('id')->paginate(12);
+        // disable to disable auto login on the posts page for the site superadmin id 1
         app()->isProduction() === false ? Auth::login(User::find(1)) : '';
 
         if ($request->has('searchPost')) {

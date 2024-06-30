@@ -22,36 +22,62 @@
         Prism.highlightAll()
     })
 </script>
+<style>
+    .jumbotron {
+        min-height: 75dvh;
+        background-attachment: fixed;
+    }
 
+    #post {
+        .post-title {
+            margin-top: -5rem;
+            padding: 1rem;
+            background: white;
+            color: #333;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .content {
+            max-width: 100%;
+            margin: auto;
+            background-color: #33333333;
+            padding: 1rem;
+        }
+    }
+</style>
 @endsection
 
 
 @section('content')
 
-<div class="jumbotron p-5 mb-4 rounded-0" style="min-height:300px;background-size: cover; background-position: center; background-attachment: fixed; background-image: url('{{$post->coverImagePath()}}')">
+<div class="jumbotron p-5 mb-4 rounded-0" style="background-image: url('{{$post->coverImagePath()}}')">
 </div>
 
-<div class="content">
+<div id="post">
     <div class="container">
-        <h1 class="display-5 fw-bold">
+        <h1 class="post-title display-5 fw-bold">
             {{$post->title}}
         </h1>
-        <p>
+        <div class="content">
             {!! Str::of($post->content)->markdown() !!}
-        </p>
+        </div>
 
-        <div class="my-4 p-4 bg-info-subtle rounded-3 d-flex flex-column align-items-center gap-4">
-            <img width="100" src="{{asset('fabio_pacifici.jpg' )}}" alt="Fabio Pacifici Profile Image" class="rounded-3">
-            <p class="lead">{{__('Hi! I hope you enjoyed this short blog post, for longer tutorials you can find mine also here')}}</p>
+        <div class="my-4 p-4 bg-info-dark rounded-3 d-flex flex-column align-items-center gap-4">
+            <img width="60" src="{{asset('images/vendor/pacificdev/blog-ai/logo.png' )}}" alt="logo" class="rounded-3">
+            <p class="lead">{{__('Find us online ')}}</p>
             <div class="call_to_action">
-                <a class="btn bg-primary-subtle mb-1" href="https://fabiopacifici.com/blog" target="_blank">
+                <a class="btn rounded-pill bg-primary-subtle mb-1" href="https://fabiopacifici.com/blog" target="_blank">
                     {{__('Blog')}}
                 </a>
-                <a class="btn bg-primary-subtle mb-1" href="https://www.youtube.com/c/FabioPacificiHood/videos" target="_blank">
-                    {{__('YouTube Channel')}}
+                <a class="btn rounded-pill bg-primary-subtle mb-1" href="https://www.youtube.com/c/FabioPacificiHood/videos" target="_blank">
+                    <i class="bi bi-youtube"></i> {{__('YouTube Channel')}}
                 </a>
-                <a class="btn bg-primary-subtle mb-1" href="https://www.freecodecamp.org/news/author/fabio/" target="_blank">
+                <a class="btn rounded-pill bg-primary-subtle mb-1" href="https://www.freecodecamp.org/news/author/fabio/" target="_blank">
                     {{__('FreeCodeCamp Profile')}}
+                </a>
+                <a class="btn rounded-pill bg-primary-subtle mb-1" href="https://github.com/fabiopacificicom" target="_blank">
+                    <i class="bi bi-github"></i> {{__('Github')}}
                 </a>
             </div>
         </div>
