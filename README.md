@@ -7,7 +7,14 @@ Test the package on a fresh laravel install.
 
 ```bash
 
-composer require pacificdev/ai-cms
+composer require pacificdev/autonomous-blogging-system
+
+```
+
+Run the migrations
+
+```bash
+php artisan migrate
 
 ```
 
@@ -15,14 +22,64 @@ composer require pacificdev/ai-cms
 
 ```bash
 
-php artisan vendor:publish --tag=pacificdev:blog-ai-assets
+php artisan vendor:publish --tag=pacificdev:ai-blog-assets
+php artisan vendor:publish --tag=pacificdev:ai-blog-config
+
 ```
 
-Run the migrations
+By default the package uses bootstrap, therefore you need to publish the boostrap pagination
+
+```bash
+php artisan vendor:publish --tag=laravel-pagination 
+```
+
+## Install dependencies and update vite config
+
+run npm install
+
+```bash
+npm i
+```
+
+Update the vite.config.js file
+
+```js
+import path from 'path'; // <-- require path from node
+
+export default defineConfig({
+    //..
+    resolve: {
+        alias: {
+            '~icons': path.resolve(__dirname, 'node_modules/bootstrap-icons/font'),
+            '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            '~resources': '/resources/'
+        }
+    }
+});
+
+
+```
+
+## Update your .env file
+
+Set the .env file
+The package is configured to make posts searchable therefore you need to add the scout driver environment variable.
+
+```env
+OPENAI_API_KEY=your_api_key_here
+SCOUT_DRIVER=database
+
+```
+
+## Customise views and components
+
+You can also publish views, livewire and blade components
 
 ```bash
 
-php artisan migrate
+php artisan vendor:publish --tag=pacificdev:ai-blog-views
+php artisan vendor:publish --tag=pacificdev:ai-blog-components
+php artisan vendor:publish --tag=pacificdev:ai-blog-livewire-classes
 
 ```
 
@@ -37,14 +94,5 @@ use PacificDev\BlogAi\Http\Middleware\Blog\SuperAdmin;
         # add this inside the callback 👇
         $middleware->append(SuperAdmin::class);
     })
-
-```
-
-Set the .env file
-The package is configured to make posts searchable therefore you need to add the scout driver environment variable.
-
-```env
-OPENAI_API_KEY=your_api_key_here
-SCOUT_DRIVER=database
 
 ```
