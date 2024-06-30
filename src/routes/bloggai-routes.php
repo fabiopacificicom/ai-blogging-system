@@ -21,7 +21,7 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
 
     Route::redirect('/', '/blog-ai/settings', 301);
     Route::get('posts', PostsPage::class)->name('posts.index');
-    Route::get('posts/{post:slug}/edit', EditPostForm::class)->name('posts.endit');
+    Route::get('posts/{post:slug}/edit', EditPostForm::class)->name('posts.edit');
     Route::resource('posts', PostController::class)->except(['show', 'index', 'edit'])->parameters([
         'posts' => 'post:slug',
     ]);
