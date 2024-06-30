@@ -49,7 +49,11 @@
                             Regenerate
                             <i class="bi bi-stars"></i>
                         </span>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">processig...</span>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">
+                            <l-hourglass size="40" bg-opacity="0.1" speed="1.75" color="white"></l-hourglass>
+                            <br>
+                            {{__('wait')}}
+                        </span>
                     </button>
                     @if($post->status == 'public')
                     <a class="btn btn-dark" href="{{route('posts.show', $post) }}">
@@ -136,7 +140,11 @@
                     <button class="btn btn-dark" type="button" wire:click="generateImage" wire:loading.attr="disabled" wire:target="generateImage">
 
                         <i class="bi bi-image" wire:loading.class.add="d-none" wire:target="generateImage"></i>
-                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">procesing...</span>
+                        <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateImage">
+                            <l-helix size="45" speed="2.5" color="white"></l-helix>
+                            <br>
+                            {{__('wait')}}
+                        </span>
                     </button>
                 </div>
                 @error('cover_image')

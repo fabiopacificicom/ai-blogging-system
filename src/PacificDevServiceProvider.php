@@ -36,6 +36,7 @@ class PacificDevServiceProvider extends ServiceProvider
   public function boot()
   {
 
+    $this->loadPackages();
 
     $this->loadDefaultSheduler();
 
@@ -97,4 +98,9 @@ class PacificDevServiceProvider extends ServiceProvider
       ]);
     }
   }
+
+
+  
+
+
 }

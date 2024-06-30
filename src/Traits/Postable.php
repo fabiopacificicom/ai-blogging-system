@@ -19,7 +19,7 @@ trait Postable
     public $temp = 0.4;
     public $max_tokens = 2500;
     public $model_name;
-    public Post $post;
+    public $post;
     public $title;
 
 

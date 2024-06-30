@@ -9,6 +9,21 @@ trait Actionable
 {
 
 
+  private function loadPackages()
+  {
+
+
+    $packageJson = json_decode(file_get_contents(base_path('package.json')), true);
+
+    //dd($packageJson, array_key_exists('ldrs', $packageJson['dependencies'])); //array, false
+
+    // set loaders package
+    if (!array_key_exists('ldrs', $packageJson['dependencies'])) {
+      $packageJson['dependencies']['ldrs'] = '^1.0.1';
+      file_put_contents(base_path('package.json'), json_encode($packageJson));
+    }
+  }
+
   private function publishPackageFiles()
   {
 

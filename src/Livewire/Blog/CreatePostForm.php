@@ -4,6 +4,7 @@ namespace PacificDev\BlogAi\Livewire\Blog;
 
 use Livewire\Component;
 use PacificDev\BlogAi\Traits\Postable;
+
 class CreatePostForm extends Component
 {
     use Postable;
@@ -14,7 +15,7 @@ class CreatePostForm extends Component
         return view('pacificdev::blog.livewire.posts.create-post-form')->layout('pacificdev::blog.layouts.components-admin');
     }
     public function mount()
-    {
+    {  
         $this->model_name = config('bloggai.presets.blog.default_model');
         $this->max_tokens = config('bloggai.presets.blog.max_post_length');
     }
