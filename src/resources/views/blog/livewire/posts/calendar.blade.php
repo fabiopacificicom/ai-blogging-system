@@ -3,12 +3,12 @@
   @include('pacificdev::blog.partials.validation')
 
   <!-- Post Generation Scheduler -->
-  <h4>Post Generation Scheduler</h4>
+  <h6 class="mt-2">Post Generation Scheduler</h6>
   <form wire:submit.prevent="saveSchedule">
     <!-- Days of the Week for Post Generation -->
     <div class="mb-3">
       @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
-      <label class="form-check-label">
+      <label class="form-check-label border p-2 rounded">
         <input class="form-check-input" type="checkbox" wire:mode.live="postGenerationDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postGenerationDays) ? 'checked' : ''}}>
         {{ $day }}
       </label>
@@ -23,10 +23,10 @@
 
     <!-- Post Share Scheduler -->
     <div class="mb-3">
-      <h4>Post Share Scheduler</h4>
+      <h6 class="mt-2">Post Share Scheduler</h6>
       <!-- Days of the Week for Post Share -->
       @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
-      <label class="form-check-label">
+      <label class="form-check-label border p-2 rounded">
         <input class="form-check-input" type="checkbox" wire:mode.live="postShareDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postShareDays) ? 'checked' : ''}}>
         {{ $day }}
       </label>
@@ -35,7 +35,7 @@
       <!-- Time Picker for Post Share -->
       <label>
         Time:
-        <input class="form-control" type="time" wire:mode.live="postShareTime">
+        <input class="form-control" type="time" wire:model.live="postShareTime">
       </label>
     </div>
 
