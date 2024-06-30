@@ -6,6 +6,7 @@ use PacificDev\BlogAi\Models\Post;
 use PacificDev\BlogAi\Services\OpenAi;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 
 trait Postable
@@ -31,10 +32,18 @@ trait Postable
             $cover_image = '/images/' . uniqid('aimg_') . '.jpeg';
 
             Storage::put($cover_image, $cover_image_stream);
+            
+            // Optimize the image
+            Log::info('optimization start');
+            $optimizerChain = OptimizerChainFactory::create();
+            $optimizerChain->optimize(public_path('storage/' . $cover_image));
+            Log::info('optimization complete', ['path' => $cover_image]);
 
+            // updte the image path to return the new generated image to the user
             $this->imagePath = $cover_image;
             $this->draft['cover_image'] = $cover_image;
             
+            // update the post cover image field
             if($this->post->cover_image) {
                 $this->post->update([
                     'cover_image' => $cover_image
