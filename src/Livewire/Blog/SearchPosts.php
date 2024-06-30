@@ -3,7 +3,9 @@
 namespace PacificDev\BlogAi\Livewire\Blog;
 
 use Livewire\Component;
-use App\Livewire\Blog\PostsPage;
+use PacificDev\BlogAi\Livewire\Blog\PostsPage;
+
+
 
 class SearchPosts extends Component
 {
