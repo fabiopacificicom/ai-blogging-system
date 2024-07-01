@@ -79,8 +79,17 @@ class PacificDevServiceProvider extends ServiceProvider
     // load middleware
     $this->loadMiddlewareFrom(__DIR__ . '/Http/Middleware');
 
-    // load the scheduler
-    $this->loadDefaultSheduler();
+    // Add a conditional check to ensure that the scheduler is loaded
+    // only when the application is running in the console and 
+    // the "schedule:run" command is being executed.
+    if (
+      $this->app->runningInConsole() &&
+      in_array(\Request::server('argv', [])[1] ?? null, ['schedule:run', 'migrate'])
+    ) {
+      $this->app->booted(function () {
+        $this->loadScheduler();
+      });
+    }
     
     // @deprecated Load Livewire
     // Livewire classes are autoloaded from the package, there is no need to 

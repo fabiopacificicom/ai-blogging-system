@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use PacificDev\BlogAi\Services\OpenAi;
 use PacificDev\BlogAi\Models\Setting;
+
 trait Actionable
 {
 
- 
+
 
   private function loadPackages()
   {
@@ -46,7 +47,7 @@ trait Actionable
       // Admin assets 
       __DIR__ . '/../resources/admin/js/admin.js' => resource_path('js/vendor/pacificdev/blog-ai/admin.js'),
       __DIR__ . '/../resources/admin/scss/admin.scss' => resource_path('scss/vendor/pacificdev/blog-ai/admin.scss'),
-      
+
       // Guests assets
       __DIR__ . '/../resources/guest/js/app.js' => resource_path('js/vendor/pacificdev/blog-ai/app.js'),
       __DIR__ . '/../resources/guest/scss/app.scss' => resource_path('scss/vendor/pacificdev/blog-ai/app.scss'),
@@ -74,7 +75,7 @@ trait Actionable
   }
 
   // @deprecated Load Livewire
- /*  private function loadLivewireComponentsFrom($path)
+  /*  private function loadLivewireComponentsFrom($path)
   {
     // Verify that the destination directory exists or create it
     $destinationPath = base_path('app/Livewire/Blog');
@@ -92,19 +93,19 @@ trait Actionable
   } */
 
 
- 
+
   private function loadDefaultSheduler()
   {
 
     if (
       File::exists(base_path('/routes/bloggai-sheduled-commands.php'))
-      ) {
-        return;
-      }
-      
+    ) {
+      return;
+    }
+
     // get the framework version
     $version = intval(substr(App::version(), 0, 2));
-    
+
     // Laravel 11 uses the routes/console.php file to define scheduled commands
     if ($version >= 11) {
       // copy the bloggai-sheduled-commands routes file 
@@ -121,53 +122,54 @@ trait Actionable
 
   private function loadScheduler()
   {
-    $schedule =  $this->app->make(Schedule::class);
-    $postGenerationDays = Setting::get('post_generation_schedule_days', []);
-    $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
-    $postShareDays = Setting::get('post_share_schedule_days', []);
-    $postShareTime = Setting::get('post_share_schedule_time', '13:00');
 
+    if (\Schema::hasTable('settings')) {
+      $schedule =  $this->app->make(Schedule::class);
+      $postGenerationDays = Setting::get('post_generation_schedule_days', []);
+      $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
+      $postShareDays = Setting::get('post_share_schedule_days', []);
+      $postShareTime = Setting::get('post_share_schedule_time', '13:00');
+      // $schedule->command('inspire')->hourly();
+      $schedule->command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
 
-    // $schedule->command('inspire')->hourly();
-    $schedule->command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
+      $schedule->call(function () {
+        $latestPost = Post::where('status', 'public')->latest()->first();
 
-    $schedule->call(function () {
-      $latestPost = Post::where('status', 'public')->latest()->first();
+        if (!$latestPost) {
+          Log::info('Nothing to share');
 
-      if (!$latestPost) {
-        Log::info('Nothing to share');
+          return;
+        }
 
-        return;
-      }
+        $postUrl = URL::to('/posts/' . $latestPost?->slug);
+        $postSummary = $latestPost?->summary;
+        $openAi = new OpenAi();
+        $laiResponse = $openAi->chat([
+          'messages' => [
+            config('bloggai.presets.system'), // the system message
+            config('bloggai.presets.shareInstructions'), // the user instructions to generate a post given the below summary
+            [
+              'role' => 'user',
+              'content' => $postSummary,
+            ], // the latest post summary to generate the share text from
+          ],
+          'max_tokens' => config('bloggai.presets.share.max_tokens', 550),
+          'temperature' => config('bloggai.presets.share.temperature', 0.2),
+        ]);
 
-      $postUrl = URL::to('/posts/' . $latestPost?->slug);
-      $postSummary = $latestPost?->summary;
-      $openAi = new OpenAi();
-      $laiResponse = $openAi->chat([
-        'messages' => [
-          config('bloggai.presets.system'), // the system message
-          config('bloggai.presets.shareInstructions'), // the user instructions to generate a post given the below summary
-          [
-            'role' => 'user',
-            'content' => $postSummary,
-          ], // the latest post summary to generate the share text from
-        ],
-        'max_tokens' => config('bloggai.presets.share.max_tokens', 550),
-        'temperature' => config('bloggai.presets.share.temperature', 0.2),
-      ]);
+        $shareText = $openAi->getAnswer($laiResponse);
+        if (!$shareText) {
+          Log::error($openAi->getFailureMessage($laiResponse));
 
-      $shareText = $openAi->getAnswer($laiResponse);
-      if (!$shareText) {
-        Log::error($openAi->getFailureMessage($laiResponse));
+          return;
+        }
 
-        return;
-      }
-
-      /* TODO:
-            the social name should be dynamic and not hardcoded when multiple social will be available
-            */
-      $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
-    })->name('bloggai.share')->weeklyOn($postShareDays, $postShareTime);
+        /* TODO:
+              the social name should be dynamic and not hardcoded when multiple social will be available
+              */
+        $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
+      })->name('bloggai.share')->weeklyOn($postShareDays, $postShareTime);
+    }
   }
 
 
