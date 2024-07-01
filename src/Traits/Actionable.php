@@ -245,7 +245,20 @@ trait Actionable
     }
   }
 
-
+  /**
+   * Register database migration paths.
+   *
+   * @param  array|string  $paths
+   * @return void
+   */
+  protected function loadMigrationsFrom($paths)
+  {
+    $this->callAfterResolving('migrator', function ($migrator) use ($paths) {
+      foreach ((array) $paths as $path) {
+        $migrator->path($path);
+      }
+    });
+  }
 
   private function append_to_file($file, string $contents)
   {
