@@ -96,20 +96,23 @@ trait Actionable
   private function loadDefaultSheduler()
   {
 
-    // get the framework version
     if (
       File::exists(base_path('/routes/bloggai-sheduled-commands.php'))
-    ) {
-      return;
-    }
-
+      ) {
+        return;
+      }
+      
+    // get the framework version
     $version = intval(substr(App::version(), 0, 2));
+    
+    // Laravel 11 uses the routes/console.php file to define scheduled commands
     if ($version >= 11) {
       // copy the bloggai-sheduled-commands routes file 
       File::copy(__DIR__ . '/../routes/bloggai-sheduled-commands.php', base_path('/routes/bloggai-sheduled-commands.php'));
       $console_routes_php_file = 'routes/console.php';
       $this->append_to_file($console_routes_php_file, "require __DIR__ . '/bloggai-sheduled-commands.php';");
     } else {
+      // Prior to laravel 11 the scheduler has to be loaded in the package service provider boot method
       // load the scheduler in the service proider boot method
       $this->loadScheduler();
     }
