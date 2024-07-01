@@ -75,7 +75,7 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
     // load controllers
-    $this->loadControllersFrom(__DIR__ . '/Http/Controllers');
+    //$this->loadControllersFrom(__DIR__ . '/Http/Controllers');
 
 
     // load middleware
