@@ -29,6 +29,10 @@ trait Actionable
       $packageJson['dependencies']['ldrs'] = '^1.0.1';
       file_put_contents(base_path('package.json'), json_encode($packageJson));
     }
+    if (!array_key_exists('bootstrap', $packageJson['dependencies'])) {
+      $packageJson['dependencies']['bootstrap'] = '^5.3.3';
+      file_put_contents(base_path('package.json'), json_encode($packageJson));
+    }
   }
 
   private function publishPackageFiles()
