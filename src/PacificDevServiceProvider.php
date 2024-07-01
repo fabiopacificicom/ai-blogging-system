@@ -38,8 +38,6 @@ class PacificDevServiceProvider extends ServiceProvider
     // load npm packages
     $this->loadPackages();
         
-    // load the scheduler
-    $this->loadDefaultSheduler();
 
     // Loads required environment variables in the .env file
     $this->loadEnvironment();
@@ -81,7 +79,8 @@ class PacificDevServiceProvider extends ServiceProvider
     // load middleware
     $this->loadMiddlewareFrom(__DIR__ . '/Http/Middleware');
 
-
+    // load the scheduler
+    $this->loadDefaultSheduler();
     
     // @deprecated Load Livewire
     // Livewire classes are autoloaded from the package, there is no need to 
