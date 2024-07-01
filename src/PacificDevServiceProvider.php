@@ -35,10 +35,11 @@ class PacificDevServiceProvider extends ServiceProvider
   }
   public function boot()
   {
-
+    // load npm packages
     $this->loadPackages();
-
-    $this->loadDefaultSheduler();
+        
+    // load the scheduler
+    $this->loadScheduler();
 
     // Loads required environment variables in the .env file
     $this->loadEnvironment();
@@ -98,7 +99,6 @@ class PacificDevServiceProvider extends ServiceProvider
       ]);
     }
   }
-
 
   
 
