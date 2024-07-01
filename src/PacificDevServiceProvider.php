@@ -39,7 +39,7 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadPackages();
         
     // load the scheduler
-    $this->loadScheduler();
+    $this->loadDefaultSheduler();
 
     // Loads required environment variables in the .env file
     $this->loadEnvironment();
