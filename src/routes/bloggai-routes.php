@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
     ]);
 
     Route::get('settings', Settings::class)->name('blog.settings');
-    Route::post('ai/blog', function (Request $request, OpenAi $ai) {
+/*     Route::post('ai/blog', function (Request $request, OpenAi $ai) {
         // Requests that reach this endpoint will either want to generate a
         // - post title
         // - post summary
@@ -112,7 +112,7 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
                 'body' => 'Sorry, there has been an error with your request' . $th->getMessage(),
             ]);
         }
-    })->name('bloggai');
+    })->name('bloggai'); */
 
     /* Linkedin Share Routes */
     // Linkedin share oAuth - redirects the user to the linkedin login page to authorize our app.

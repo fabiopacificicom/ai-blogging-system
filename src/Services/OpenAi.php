@@ -90,7 +90,6 @@ class OpenAi
 
     public function getAnswer($response): ?string
     {
-
         if ($response->successful()) {
             $answerText = json_decode($response->body(), true)['choices'][0]['message']['content'];
 

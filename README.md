@@ -41,7 +41,7 @@ run npm install
 npm i
 ```
 
-Update the vite.config.js file
+Update the vite.config.js file if necessary
 
 ```js
 import path from 'path'; // <-- require path from node
@@ -85,7 +85,7 @@ php artisan vendor:publish --tag=pacificdev:ai-blog-livewire-classes
 
 **Laravel 11**
 Add the super admin middleware inside bootstrap/app.php file
-or remove the middleware form the routes in not required.
+or remove the middleware form the routes if not required.
 
 ```php
 use PacificDev\BlogAi\Http\Middleware\Blog\SuperAdmin;

@@ -70,10 +70,13 @@ trait Postable
         // get the response
         //dd($payload);
         $response =  $ai->chat($payload);
-        // handle errors
-        $this->handleErrorsGracefully($response->json());
-        // generate post
-        $this->generatePost($response->json());
+        if (array_key_exists('error', $response->json())) { 
+            // handle errors
+            $this->handleErrorsGracefully($response->json());
+        } else {
+            // generate post
+            $this->generatePost($response->json());
+        }
     }
 
     public function publish(OpenAi $ai)
