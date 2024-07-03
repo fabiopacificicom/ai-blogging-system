@@ -41,13 +41,25 @@ run npm install
 npm i
 ```
 
-Update the vite.config.js file if necessary
+Update the vite.config.js file
 
 ```js
-import path from 'path'; // <-- require path from node
+import path from 'path';
 
 export default defineConfig({
-    //..
+   plugins: [
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/js/vendor/pacificdev/blog-ai/admin.js', // 👈 Add blog js
+                'resources/scss/vendor/pacificdev/blog-ai/admin.scss',  // 👈 Add blog scss
+            ],
+            refresh: true,
+        }),
+    ],
+    // 👇 Check these tree aliases are present in your config file, if not
+    // add them as you see below.
     resolve: {
         alias: {
             '~icons': path.resolve(__dirname, 'node_modules/bootstrap-icons/font'),

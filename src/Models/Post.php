@@ -41,7 +41,7 @@ class Post extends Model
 
     public function coverImagePath()
     {
-        return asset('storage/' . $this->cover_image);
+        return asset('storage' . $this->cover_image);
     }
 
     /**
