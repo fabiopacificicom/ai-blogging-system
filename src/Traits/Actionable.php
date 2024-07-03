@@ -129,9 +129,9 @@ trait Actionable
 
     if (\Schema::hasTable('settings')) {
       $schedule =  $this->app->make(Schedule::class);
-      $postGenerationDays = Setting::get('post_generation_schedule_days', []);
+      $postGenerationDays = Setting::get('post_generation_schedule_days', [2,3]);
       $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
-      $postShareDays = Setting::get('post_share_schedule_days', []);
+      $postShareDays = Setting::get('post_share_schedule_days', [3,4]);
       $postShareTime = Setting::get('post_share_schedule_time', '13:00');
       // $schedule->command('inspire')->hourly();
       $schedule->command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
