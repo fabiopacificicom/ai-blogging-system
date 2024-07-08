@@ -9,7 +9,7 @@
     <div class="mb-3">
       @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
       <label class="form-check-label border p-2 m-1 rounded">
-        <input class="form-check-input" type="checkbox" wire:mode.live="postGenerationDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postGenerationDays) ? 'checked' : ''}}>
+        <input class="form-check-input" type="checkbox" wire:model="postGenerationDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postGenerationDays) ? 'checked' : ''}}>
         {{ $day }}
       </label>
       @endforeach
@@ -30,7 +30,7 @@
       <!-- Days of the Week for Post Share -->
       @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
       <label class="form-check-label border p-2 m-1 rounded">
-        <input class="form-check-input" type="checkbox" wire:mode.live="postShareDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postShareDays) ? 'checked' : ''}}>
+        <input class="form-check-input" type="checkbox" wire:model="postShareDays.{{ $index }}" value="{{ $index }}" {{in_array($index, $postShareDays) ? 'checked' : ''}}>
         {{ $day }}
       </label>
       @endforeach
