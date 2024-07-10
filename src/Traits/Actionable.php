@@ -129,12 +129,14 @@ trait Actionable
 
     if (\Schema::hasTable('settings')) {
       $schedule =  $this->app->make(Schedule::class);
-      $postGenerationDays = Setting::get('post_generation_schedule_days', [2,3]);
-      $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
-      $postShareDays = Setting::get('post_share_schedule_days', [3,4]);
-      $postShareTime = Setting::get('post_share_schedule_time', '13:00');
-      // $schedule->command('inspire')->hourly();
-      $schedule->command('bloggai:post')->weeklyOn($postGenerationDays, $postGenerationTime);
+
+
+      // Construct the CRON
+      $postsCron = $this->constructCron(Setting::get('post_generation_schedule_days', [2, 3]), Setting::get('post_generation_schedule_time', '09:00'));
+      $sharesCron = $this->constructCron(Setting::get('post_share_schedule_days', [3, 4]), Setting::get('post_share_schedule_time', '13:00'));
+      //dd($postsCron, $sharesCron);
+
+      $schedule->command('bloggai:post')->cron($postsCron);
 
       $schedule->call(function () {
         $latestPost = Post::where('status', 'public')->latest()->first();
@@ -172,9 +174,32 @@ trait Actionable
               the social name should be dynamic and not hardcoded when multiple social will be available
               */
         $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
-      })->name('bloggai.share')->weeklyOn($postShareDays, $postShareTime);
+      })->name('bloggai.share')->cron($sharesCron);
     }
   }
+
+
+  /**
+   * The settings array is a plain array with 
+   * @param $days
+   * @param $time
+   */
+  private function constructCron($days, $time)
+  {
+
+    // Convert the associative array to a simple string of day numbers
+    $days = implode(',', array_keys(array_filter($days, function ($value) {
+      return $value === true;
+    })));
+
+    // extract times and hours 
+    [$hour, $minute] = explode(':', $time);
+
+
+    // Construct the CRON
+    return "{$minute} {$hour} * * {$days}";
+  }
+
 
 
   private function loadEnvironment()
