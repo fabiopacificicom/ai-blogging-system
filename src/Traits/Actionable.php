@@ -138,7 +138,7 @@ trait Actionable
 
       $schedule->command('bloggai:post')->cron($postsCron);
 
-      $schedule->call(function () {
+      $schedule->call(function () use ($schedule) {
         $latestPost = Post::where('status', 'public')->latest()->first();
 
         if (!$latestPost) {
@@ -173,7 +173,7 @@ trait Actionable
         /* TODO:
               the social name should be dynamic and not hardcoded when multiple social will be available
               */
-        $this->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
+        $schedule->call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
       })->name('bloggai.share')->cron($sharesCron);
     }
   }
