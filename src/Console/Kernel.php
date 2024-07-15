@@ -8,8 +8,9 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use PacificDev\BlogAi\Services\OpenAi;
-use PacificDev\BlogAi\Commands\BloggaiSocialShare;;
+use PacificDev\BlogAi\Commands\BloggaiSocialShare;
 use PacificDev\BlogAi\Models\Setting;
+
 /**
  * This is for laravel 10
  */
