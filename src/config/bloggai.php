@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'base_url' => '',
   'openai' => [
     'api_key' => env('OPENAI_API_KEY', ''),
     'endpoints' => [
@@ -35,8 +36,8 @@ return [
       'default_model' => 'gpt-4o',
       'artworker' => 'dalle-3',
       'create' => [
-          'role' => 'system',
-          'content' => "Your task is to generate a blog post given the audience and user instructions. Format the response as JSON object with the folliwing keys: title, slug, content, summary. Return the json object and nothing else."
+        'role' => 'system',
+        'content' => "Your task is to generate a blog post given the audience and user instructions. Format the response as JSON object with the folliwing keys: title, slug, content, summary. Return the json object and nothing else."
       ],
       'title' => [
         'target_audience' => 'Audience: Web Developers.',

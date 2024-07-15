@@ -26,8 +26,8 @@ class BloggaiSocialShare extends Command
     public function configure()
     {
         $this->addArgument('social', InputArgument::OPTIONAL, 'Name of the social network', 'linkedin');
-        $this->addArgument('text', InputArgument::OPTIONAL, 'The text to share on social networks', 'I am sharing my latest blog post using bloggai.net');
-        $this->addArgument('url', InputArgument::OPTIONAL, 'The link of the blog post to share on social networks', 'https://bloggai.net');
+        $this->addArgument('text', InputArgument::OPTIONAL, 'Hi! Check out this link ');
+        $this->addArgument('url', InputArgument::OPTIONAL, 'The link of the blog post to share on social networks', config('app.url'));
     }
 
     /**
