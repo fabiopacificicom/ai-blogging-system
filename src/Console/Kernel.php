@@ -1,5 +1,5 @@
 <?php
-
+//@deprecated
 namespace PacificDev\BlogAi\Console;
 
 use PacificDev\BlogAi\Models\Post;
