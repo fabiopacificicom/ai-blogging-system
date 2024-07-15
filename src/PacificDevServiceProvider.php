@@ -37,7 +37,7 @@ class PacificDevServiceProvider extends ServiceProvider
   {
     // load npm packages
     $this->loadPackages();
-        
+
 
     // Loads required environment variables in the .env file
     $this->loadEnvironment();
@@ -87,10 +87,10 @@ class PacificDevServiceProvider extends ServiceProvider
       in_array(\Request::server('argv', [])[1] ?? null, ['schedule:run', 'migrate'])
     ) {
       $this->app->booted(function () {
-        $this->loadScheduler();
+        $this->loadDefaultSheduler();
       });
     }
-    
+
     // @deprecated Load Livewire
     // Livewire classes are autoloaded from the package, there is no need to 
     // copy the folder unless the user wants to override the package defaults.
@@ -107,8 +107,4 @@ class PacificDevServiceProvider extends ServiceProvider
       ]);
     }
   }
-
-  
-
-
 }

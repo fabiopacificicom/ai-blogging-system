@@ -1,12 +1,12 @@
 <?php
 
+use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Support\Facades\Schedule;
 use PacificDev\BlogAi\Models\Post;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use PacificDev\BlogAi\Services\OpenAi;
-use Illuminate\Support\Facades\Artisan;
 
 use PacificDev\BlogAi\Models\Setting;
 
@@ -14,18 +14,17 @@ use PacificDev\BlogAi\Models\Setting;
 
 if (\Schema::hasTable('settings')) {
   //$schedule =  app()->make(Schedule::class);
-
+  //dd($schedule);
 
   // Construct the CRON
   $postsCron = constructCron(Setting::get('post_generation_schedule_days', [2, 3]), Setting::get('post_generation_schedule_time', '09:00'));
   $sharesCron = constructCron(Setting::get('post_share_schedule_days', [3, 4]), Setting::get('post_share_schedule_time', '13:00'));
   //dd($postsCron, $sharesCron);
 
-  Artisan::command('bloggai:post', function () {
-    Artisan::call('bloggai:share');
-  })->cron($postsCron);
 
-  Artisan::command('bloggai:share', function () {
+  Schedule::command('bloggai:post')->cron($postsCron);
+
+  Schedule::call(function () {
     $latestPost = Post::where('status', 'public')->latest()->first();
 
     if (!$latestPost) {
@@ -57,7 +56,10 @@ if (\Schema::hasTable('settings')) {
       return;
     }
 
-    Artisan::call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
+    /* TODO:
+              the social name should be dynamic and not hardcoded when multiple social will be available
+              */
+    Schedule::call('bloggai:share', ['social' => 'linkedin', 'text' => $shareText, 'url' => $postUrl]);
   })->name('bloggai.share')->cron($sharesCron);
 }
 
