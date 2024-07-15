@@ -1,7 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Schedule;
+use PacificDev\BlogAi\Models\Post;
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use PacificDev\BlogAi\Services\OpenAi;
+
 use PacificDev\BlogAi\Models\Setting;
+
 
 $postGenerationDays = Setting::get('post_generation_schedule_days', []);
 $postGenerationTime = Setting::get('post_generation_schedule_time', '09:00');
