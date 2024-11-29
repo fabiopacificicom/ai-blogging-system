@@ -1,5 +1,7 @@
 <?php
 
+namespace PacificDev\BlogAi\Commands;
+
 use Illuminate\Filesystem\Filesystem;
 
 trait ScaffoldBlog
