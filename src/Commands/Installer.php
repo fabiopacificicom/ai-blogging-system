@@ -5,11 +5,12 @@ namespace PacificDev\BlogAi\Commands;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use PacificDev\BlogAi\Commands\ScaffoldBlog;
+use PacificDev\BlogAi\Traits\Actionable;
 
 class Installer extends Command
 {
 
-  use ScaffoldBlog;
+  use ScaffoldBlog, Actionable;
 
   /** 
    * Signature
@@ -26,6 +27,7 @@ class Installer extends Command
   public function handle()
   {
     $this->info('Installing BlogAi');
-    return $this->scaffoldBlog();
+    $this->scaffoldBlog();
+    $this->info('Complete');
   }
 }
