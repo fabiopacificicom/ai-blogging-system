@@ -1,8 +1,8 @@
 <?php
 
-use PacificDev\BlogAi\Http\Controllers\Blog\Admin\PostController;
-use PacificDev\BlogAi\Http\Controllers\Blog\Admin\SocialController;
-use PacificDev\BlogAi\Http\Controllers\Blog\Guest\PostController as BloggaiGuestPostController;
+use App\Http\Controllers\Blog\Admin\PostController;
+use App\Http\Controllers\Blog\Admin\SocialController;
+use App\Http\Controllers\Blog\Guest\PostController as BloggaiGuestPostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
     ]);
 
     Route::get('settings', Settings::class)->name('blog.settings');
-/*     Route::post('ai/blog', function (Request $request, OpenAi $ai) {
+    /*     Route::post('ai/blog', function (Request $request, OpenAi $ai) {
         // Requests that reach this endpoint will either want to generate a
         // - post title
         // - post summary
@@ -117,6 +117,5 @@ Route::middleware(['auth', 'verified', 'superadmin'])->prefix('blog-ai')->name('
     /* Linkedin Share Routes */
     // Linkedin share oAuth - redirects the user to the linkedin login page to authorize our app.
     Route::get('linkedin/auth', [SocialController::class, 'handleLinkedinAuthentication'])->name('linkedin.auth');
-
 });
 Route::get('linkedin/auth/callback', [SocialController::class, 'handleLinkedinCallback']);
