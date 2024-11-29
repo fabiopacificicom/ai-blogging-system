@@ -8,7 +8,7 @@ Test the package on a fresh laravel install.
 ```bash
 
 composer require pacificdev/autonomous-blogging-system
-
+php artisan blogai:install
 ```
 
 Run the migrations
