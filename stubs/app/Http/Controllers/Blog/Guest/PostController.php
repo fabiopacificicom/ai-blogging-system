@@ -1,6 +1,6 @@
 <?php
 
-namespace PacificDev\BlogAi\Http\Controllers\Blog\Guest;
+namespace App\Http\Controllers\Blog\Guest;
 
 use App\Http\Controllers\Controller;
 use PacificDev\BlogAi\Models\Post;

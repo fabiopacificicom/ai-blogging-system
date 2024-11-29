@@ -1,6 +1,6 @@
 <?php
 
-namespace PacificDev\BlogAi\Http\Middleware\Blog;
+namespace App\Http\Middleware\Blog;
 
 use Closure;
 use Illuminate\Http\Request;

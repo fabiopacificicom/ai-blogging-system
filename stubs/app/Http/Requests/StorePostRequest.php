@@ -1,10 +1,10 @@
 <?php
 
-namespace PacificDev\BlogAi\Http\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePostRequest extends FormRequest
+class StorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,10 +24,7 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'nullable',
-            'summary' => 'nullable',
-            'content' => 'nullable',
-            'cover' => 'nullable',
+            //
         ];
     }
 }

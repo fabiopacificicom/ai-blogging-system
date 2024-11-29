@@ -1,6 +1,6 @@
 <?php
 
-namespace PacificDev\BlogAi\Http\Controllers\Blog\Admin;
+namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePostRequest;

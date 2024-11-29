@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Blade;
 use PacificDev\BlogAi\View\Components\Blog\PanelComponent;
 use PacificDev\BlogAi\Livewire\Blog\PostsWordsCounter;
 use Livewire\Livewire;
+use PacificDev\BlogAi\Commands\Installer;
 use PacificDev\BlogAi\Livewire\Blog\CreatePostForm;
 use PacificDev\BlogAi\Livewire\Blog\EditPostForm;
 use PacificDev\BlogAi\Livewire\Blog\PostStatusToggler;
@@ -101,9 +102,9 @@ class PacificDevServiceProvider extends ServiceProvider
     // Add Commands to the app
     if ($this->app->runningInConsole()) {
       $this->commands([
+        Installer::class,
         AiCreateArticle::class,
         BloggaiSocialShare::class,
-
       ]);
     }
   }
