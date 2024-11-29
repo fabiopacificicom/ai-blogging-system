@@ -5,13 +5,14 @@
 } */
 
 /* layout */
-@media screen and (max-width: 1200px ) {
+@media screen and (max-width: 1200px) {
     .left-sidebar {
         .conversations_wrapper {
-            display: none!important;
+            display: none !important;
         }
     }
 }
+
 /* theme */
 [data-bs-theme="dark"] {
 
@@ -20,6 +21,7 @@
     }
 
 }
+
 [data-bs-theme="light"] {
     body {
         background-color: $gray-200;
@@ -28,7 +30,7 @@
 }
 
 
-a.nav-link{
+a.nav-link {
     &:hover {
         color: var(--bs-primary);
     }
@@ -101,6 +103,7 @@ pre[class*=language-] {
     .card {
         position: relative;
     }
+
     .status {
         position: absolute;
         top: 0.25rem;
@@ -137,16 +140,18 @@ pre[class*=language-] {
         transform: rotate(360deg)
     }
 }
+
 .pulse {
     animation: pulse 1s infinite;
     position: relative;
 }
+
 @keyframes pulse {
-    0%{
+    0% {
         top: 0;
     }
-    100%{
+
+    100% {
         top: 2px;
     }
 }
-
