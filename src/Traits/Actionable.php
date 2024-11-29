@@ -245,7 +245,7 @@ trait Actionable
       // the Blog directory does not exists
       //dd('no blog folder');
       // copy the it from the package
-
+      $this->info('need to create the Blog folder from path: ' . $path);
       File::copyDirectory($path, base_path('/app/Http/Controllers'));
     }
     // dd($path,  File::isDirectory(base_path('app/Http/Controllers/Blog/Admin')));
