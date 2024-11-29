@@ -74,11 +74,11 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
     // load controllers
-    $this->loadControllersFrom(__DIR__ . '/Http/Controllers');
+    //$this->loadControllersFrom(__DIR__ . '/Http/Controllers');
 
 
     // load middleware
-    $this->loadMiddlewareFrom(__DIR__ . '/Http/Middleware');
+    //$this->loadMiddlewareFrom(__DIR__ . '/Http/Middleware');
 
     // Add a conditional check to ensure that the scheduler is loaded
     // only when the application is running in the console and 
