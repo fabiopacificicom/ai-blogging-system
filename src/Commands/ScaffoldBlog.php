@@ -10,7 +10,7 @@ trait ScaffoldBlog
   protected function scaffoldBlog()
   {
 
-    $this->loadControllersFrom(__DIR__ . '../../stubs/app/Http/Controllers');
-    $this->loadMiddlewareFrom(__DIR__ . '../../stubs/app/Http/Middleware');
+    $this->loadControllersFrom(__DIR__ . '/../../stubs/app/Http/Controllers');
+    $this->loadMiddlewareFrom(__DIR__ . '/../../stubs/app/Http/Middleware');
   }
 }
