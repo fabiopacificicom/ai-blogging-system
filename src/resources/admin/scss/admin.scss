@@ -5,8 +5,10 @@
     border: 1px dashed white;
 } */
 :root {
-    --bai-accent-dark: #45245c;
-    --bai-accent: #ea0884;
+
+    --bai-accent-dark: #45245c55;
+    --bai-accent-dark-text: #5f5f5f;
+    --bai-accent: #ea088478;
 }
 
 /* layout */
@@ -162,11 +164,33 @@ pre[class*=language-] {
 }
 
 .bg-radial-dark {
-    background: #7080907a;
+    font-size: 1.1rem;
     padding: 1rem;
     border-radius: 1.15rem;
+    transition: all ease-in-out 300ms;
+    color: var(--bai-accent-dark-text);
+    border: 1px solid var(--bai-accent);
+    background: var(--bai-accent-dark);
+    color: var(--bai-accent-dark-text);
 
     &:hover {
-        background-image: radial-gradient(var(--bai-accent-dark), transparent);
+        background-image: radial-gradient(rgba(0, 0, 0, 0.691), transparent);
+        border-width: 4px;
     }
+
+    & .form-control {
+        background: var(--bai-accent-dark);
+        border-color: var(--bai-accent);
+        color: var(--bai-accent-dark-text);
+        margin-bottom: 1rem;
+
+        &::placeholder {
+            color: var(--bai-accent-dark-text);
+        }
+
+
+    }
+
+
+
 }
