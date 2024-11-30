@@ -50,8 +50,8 @@ export default defineConfig({
    plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
+               'resources/js/vendor/pacificdev/blog-ai/app.js', // 👈 Add blog js
+                'resources/scss/vendor/pacificdev/blog-ai/app.scss',  // 👈 Add blog scss
                 'resources/js/vendor/pacificdev/blog-ai/admin.js', // 👈 Add blog js
                 'resources/scss/vendor/pacificdev/blog-ai/admin.scss',  // 👈 Add blog scss
             ],
@@ -106,5 +106,17 @@ use PacificDev\BlogAi\Http\Middleware\Blog\SuperAdmin;
         # add this inside the callback 👇
         $middleware->append(SuperAdmin::class);
     })
+
+```
+
+Run the package locally, place it in a folder and link it in the repositoris array in your composer.json file
+
+```json
+ "repositories": [
+        {
+            "type": "path",
+            "url": "U:\\home\\pacificdev\\Projects\\packages\\ai-blogging-system"
+        }
+    ],
 
 ```

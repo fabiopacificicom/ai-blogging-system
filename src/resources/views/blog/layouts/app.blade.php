@@ -130,10 +130,8 @@
             <div class="container">
                 <p>
                     <strong>
-                        FabAI &copy; Fabio Pacifici {{ now()->year }}
+                        &copy; PacificDev Smart BlogAI {{ now()->year }}
                     </strong>
-
-                    Thanks for browsing the Fabulous Autonomous Blogging platform with AI - FabAI in short. All contents are humanly reviewed and occasionally written by myself.
                 </p>
             </div>
 
