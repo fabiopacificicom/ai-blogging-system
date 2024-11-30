@@ -155,3 +155,13 @@ pre[class*=language-] {
         top: 2px;
     }
 }
+
+.bg-radial-dark {
+    background: #7080907a;
+    padding: 1rem;
+    border-radius: 1.15rem;
+
+    &:hover {
+        background-image: radial-gradient(#4d10ee, transparent);
+    }
+}
