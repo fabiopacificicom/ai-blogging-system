@@ -1,8 +1,13 @@
 @import 'bootstrap';
+
 /*{
     box-sizing: border-box;
     border: 1px dashed white;
 } */
+:root {
+    --bai-accent-dark: #45245c;
+    --bai-accent: #ea0884;
+}
 
 /* layout */
 @media screen and (max-width: 1200px) {
@@ -162,6 +167,6 @@ pre[class*=language-] {
     border-radius: 1.15rem;
 
     &:hover {
-        background-image: radial-gradient(#4d10ee, transparent);
+        background-image: radial-gradient(var(--bai-accent-dark), transparent);
     }
 }

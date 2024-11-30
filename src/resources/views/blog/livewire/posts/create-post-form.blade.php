@@ -33,18 +33,20 @@
                         <h2 class="py-2 text-muted">Generate Blog Post</h2>
                         <p>Press generate for a complete draft ai generated</p>
 
-                        <div class="input-group mb-3">
+                        <div class="mb-3">
                             <textarea class="form-control" name="content" id="content" placeholder="Type here a draft of what you want to write or just a short description" wire:model="content" rows="10"></textarea>
 
-                            <button class="btn btn-dark" type="button" wire:click="generateDraft" wire:loading.attr="disabled" wire:target="generateDraft">
+                            <div class="mt-3">
+                                <button class="btn btn-dark" type="button" wire:click="generateDraft" wire:loading.attr="disabled" wire:target="generateDraft">
 
-                                <span class='' wire:loading.class.add="d-none" wire:target="generateDraft">Draft</span>
-                                <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">
-                                    <l-hourglass size="40" bg-opacity="0.1" speed="1.75" color="white"></l-hourglass>
-                                    <br>
-                                    {{__('wait')}}
-                                </span>
-                            </button>
+                                    <span class='' wire:loading.class.add="d-none" wire:target="generateDraft">Draft</span>
+                                    <span class="d-none" wire:loading.class.remove="d-none" wire:target="generateDraft">
+                                        <l-hourglass size="40" bg-opacity="0.1" speed="1.75" color="white"></l-hourglass>
+                                        <br>
+                                        {{__('wait')}}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +92,7 @@
                     </div>
 
                     <p>Customize your post image below</p>
-                    <div class="input-group mb-3">
+                    <div class="mb-3">
                         <textarea class="form-control" name="cover_image" id="cover_image" placeholder="describe the image you want for this blog post" wire:model="cover_image" rows="3"></textarea>
                         <button class="btn btn-dark" type="button" wire:click="generateImage" wire:loading.attr="disabled" wire:target="generateImage">
 
