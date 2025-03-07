@@ -203,7 +203,7 @@ class AiCreateArticle extends Command
         $response = $ai->chat(
             [
                 /* Overriding model here to use a specific one as json outputs is only available there */
-                'model' => 'gpt-4-turbo-preview',
+                'model' => 'gpt-4o',
                 'response_format' => ['type' => 'json_object'],
                 'temperature' => $this->argument('title-temperature'),
                 'max_tokens' => $this->argument('title-tokens'),
@@ -228,7 +228,7 @@ class AiCreateArticle extends Command
         $response = $ai->chat(
             [
                 /* Overriding model here to use a specific one as json outputs is only available there */
-                'model' => 'gpt-4-turbo-preview',
+                'model' => 'gpt-4o',
                 'response_format' => ['type' => 'json_object'],
                 'temperature' => $this->argument('summary-temperature'),
                 'messages' => [
