@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->string('slug')->unique()->after('title')->nullable();
-        });
+        if (!Schema::hasColumn('posts', 'slug')) {
+            Schema::table('posts', function (Blueprint $table) {
+                $table->string('slug')->unique()->after('title')->nullable();
+            });
+        }
     }
 
     /**

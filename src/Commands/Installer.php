@@ -3,7 +3,7 @@
 namespace PacificDev\BlogAi\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
-use LaravelZero\Framework\Commands\Command;
+use Illuminate\Console\Command;
 use PacificDev\BlogAi\Commands\ScaffoldBlog;
 use PacificDev\BlogAi\Traits\Actionable;
 
