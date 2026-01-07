@@ -27,6 +27,42 @@ php artisan vendor:publish --tag=pacificdev:ai-blog-config
 
 ```
 
+## LinkedIn Config (package default)
+
+This package ships a publishable `linkedin` configuration with sensible defaults for autonomous sharing.
+
+To publish the config into your application run:
+
+```bash
+php artisan vendor:publish --tag=pacificdev:ai-blog-config
+```
+
+The published file will be available at `config/linkedin.php`. Example `share_models` mapping you can set in your app config:
+
+```php
+return [
+    'share_models' => [
+        'post' => \PacificDev\BlogAi\Models\Post::class,
+        'course' => \App\Models\Course::class,
+    ],
+    // other options: 'share_cooldown_days', 'content_rotation_strategy', 'max_shares_per_day'
+];
+```
+
+This allows projects to override which models the package scheduler will consider for LinkedIn sharing.
+
+### Useful ENV keys
+
+The package uses OpenAI to generate share text; add these to your `.env`:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+LINKEDIN_PROMOTIONAL_TEMPLATE="Create a compelling LinkedIn post (max 300 chars) to promote this item:\nTitle: {title}\nSummary: {summary}"
+```
+
+`LINKEDIN_PROMOTIONAL_TEMPLATE` can be used by the scheduler to seed the AI prompt; the package exposes `config('linkedin.promotional_post_template')` for this purpose.
+
+
 By default the package uses bootstrap, therefore you need to publish the boostrap pagination
 
 ```bash

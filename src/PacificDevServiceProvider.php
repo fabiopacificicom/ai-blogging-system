@@ -33,6 +33,11 @@ class PacificDevServiceProvider extends ServiceProvider
       __DIR__ . '/config/bloggai.php',
       'bloggai'
     );
+    // Merge package default LinkedIn config so applications can override it
+    $this->mergeConfigFrom(
+      __DIR__ . '/config/linkedin.php',
+      'linkedin'
+    );
   }
   public function boot()
   {

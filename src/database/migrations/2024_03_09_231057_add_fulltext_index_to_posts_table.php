@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -13,9 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        // Make sure to wrap the index creation in a raw statement
-        // as Laravel's Schema builder does not support fulltext indexes natively
-        DB::statement('ALTER TABLE posts ADD FULLTEXT fulltext_index(content)');
+        // Skip fulltext index on SQLite (not supported)
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            // Make sure to wrap the index creation in a raw statement
+            // as Laravel's Schema builder does not support fulltext indexes natively
+            DB::statement('ALTER TABLE posts ADD FULLTEXT fulltext_index(content)');
+        }
     }
 
     /**
@@ -25,7 +29,9 @@ return new class extends Migration
      */
     public function down()
     {
-        // To drop the fulltext index, use a raw statement as well
-        DB::statement('ALTER TABLE posts DROP INDEX fulltext_index');
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            // To drop the fulltext index, use a raw statement as well
+            DB::statement('ALTER TABLE posts DROP INDEX fulltext_index');
+        }
     }
 };

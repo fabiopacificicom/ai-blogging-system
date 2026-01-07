@@ -18,10 +18,13 @@ return new class extends Migration
                 $table->id();
                 $table->string('author', 10)->nullable();
                 $table->string('title');
+                $table->string('slug')->unique();
                 $table->mediumText('summary')->nullable();
-                $table->text('content')->nullable();
+                $table->longText('content')->nullable();
+                $table->string('featured_image')->nullable();
                 $table->mediumText('cover_image')->nullable();
                 $table->enum('status', ['public', 'draft'])->default('draft');
+                $table->boolean('is_published')->default(false);
                 $table->timestamps();
             });
         }

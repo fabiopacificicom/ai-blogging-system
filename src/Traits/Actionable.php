@@ -74,7 +74,8 @@ trait Actionable
 
     // Load config
     $this->publishes([
-      __DIR__ . '/../config/bloggai.php' => config_path('bloggai.php')
+      __DIR__ . '/../config/bloggai.php' => config_path('bloggai.php'),
+      __DIR__ . '/../config/linkedin.php' => config_path('linkedin.php')
     ], 'pacificdev:ai-blog-config');
   }
 
