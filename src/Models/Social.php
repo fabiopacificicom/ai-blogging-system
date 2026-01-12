@@ -53,7 +53,9 @@ class Social extends Model
             ],
         ];
 
-        $response = Http::withToken($token)->withHeaders(['X-Restli-Protocol-Version: 2.0.0'])->post('https://api.linkedin.com/v2/ugcPosts', $post);
+        $response = Http::withToken($token)
+            ->withHeaders(['X-Restli-Protocol-Version' => '2.0.0'])
+            ->post('https://api.linkedin.com/v2/ugcPosts', $post);
 
         /* TODO: Refactor with early return */
         if ($response->successful()) {

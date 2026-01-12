@@ -18,6 +18,7 @@ class SocialController extends Controller
 
         //dd(Socialite::driver('linkedin-openid')->scopes(['w_member_social']));
 
+        // Use OpenID Connect scopes for linkedin-openid driver
         return Socialite::driver('linkedin-openid')->scopes(['openid', 'profile', 'email', 'w_member_social'])->redirect();
     }
 
