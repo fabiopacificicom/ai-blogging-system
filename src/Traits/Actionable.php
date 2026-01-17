@@ -205,11 +205,20 @@ trait Actionable
 
   private function loadEnvironment()
   {
-    // Append the LINKEDIN_ constants to the .env file
-    if (!env('LINKEDIN_CLIENT_ID') || !env('LINKEDIN_CLIENT_SECRET')) {
-      $env_file_path = '.env';
-      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_ID=your_client_id_key_goes_here' . "\n");
-      $this->append_to_file($env_file_path, 'LINKEDIN_CLIENT_SECRET=your_secrets_here');
+    // Append the LINKEDIN_ constants to the .env file only when not present
+    $env_file_path = '.env';
+    $env_full_path = base_path($env_file_path);
+
+    if (!file_exists($env_full_path)) {
+      return;
+    }
+
+    $env_contents = file_get_contents($env_full_path);
+
+    if (!str_contains($env_contents, 'LINKEDIN_CLIENT_ID') && !str_contains($env_contents, 'LINKEDIN_CLIENT_SECRET')) {
+      $contents = PHP_EOL . 'LINKEDIN_CLIENT_ID=your_client_id_key_goes_here' . PHP_EOL;
+      $contents .= 'LINKEDIN_CLIENT_SECRET=your_secrets_here' . PHP_EOL;
+      $this->append_to_file($env_file_path, $contents);
     }
   }
 
@@ -295,7 +304,20 @@ trait Actionable
   private function append_to_file($file, string $contents)
   {
     $file_path = base_path($file);
+
+    // Ensure file exists
+    if (!file_exists($file_path)) {
+      file_put_contents($file_path, $contents);
+      return;
+    }
+
     $file_contents = file_get_contents($file_path);
+
+    // Ensure the file ends with a newline before appending
+    if (substr($file_contents, -1) !== "\n") {
+      $file_contents .= "\n";
+    }
+
     $file_contents .= $contents;
     file_put_contents($file_path, $file_contents);
   }
