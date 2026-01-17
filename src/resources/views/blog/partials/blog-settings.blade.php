@@ -20,6 +20,18 @@
 </form>
 
 <hr>
+<!-- LinkedIn Share Instructions -->
+<h6 class="my-3">LinkedIn Share Prompt</h6>
+<form wire:submit.prevent="saveShareInstructions">
+    <div class="mb-3">
+        <label for="share-instructions">Share Instructions (used to generate LinkedIn posts)</label>
+        <textarea class="form-control" id="share-instructions" rows="4" wire:model.defer="shareInstructions"></textarea>
+        <small class="form-text text-muted">You can use placeholders and language hints. Changes are saved to application settings.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Share Instructions</button>
+</form>
+
+<hr>
 {{--
 
 

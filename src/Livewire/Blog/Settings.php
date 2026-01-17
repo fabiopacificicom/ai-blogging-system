@@ -9,6 +9,7 @@ use PacificDev\BlogAi\Models\Topic;
 use Illuminate\Support\Str;
 use PacificDev\BlogAi\Jobs\ProcessImageOptimization;
 use Illuminate\Support\Facades\Storage;
+use PacificDev\BlogAi\Models\Setting;
 class Settings extends Component
 {
 
@@ -17,6 +18,7 @@ class Settings extends Component
     #[Rule('nullable')]
     public $inRandomOrder;
     public $imagesOptimizationStatus = false;
+    public $shareInstructions;
 
 
     public function mount()
@@ -34,6 +36,14 @@ class Settings extends Component
         }
 
         //dd($this->topics);
+
+        // Load persisted share instructions or fall back to config
+        $stored = Setting::get('bloggai.presets.shareInstructions', null);
+        if ($stored && is_array($stored) && array_key_exists('content', $stored)) {
+            $this->shareInstructions = $stored['content'];
+        } else {
+            $this->shareInstructions = config('bloggai.presets.shareInstructions.content');
+        }
     }
 
 
@@ -84,6 +94,18 @@ class Settings extends Component
             ProcessImageOptimization::dispatch($image_path);
         }
         $this->imagesOptimizationStatus = 'completed';
+    }
+
+    public function saveShareInstructions()
+    {
+        // Persist as the same structure used by config: ['role' => 'user', 'content' => '...']
+        Setting::set('bloggai.presets.shareInstructions', [
+            'role' => 'user',
+            'content' => $this->shareInstructions,
+        ]);
+
+        session()->flash('success', 'Share instructions saved');
+        $this->redirect('/blog-ai/settings', true);
     }
 
 }
