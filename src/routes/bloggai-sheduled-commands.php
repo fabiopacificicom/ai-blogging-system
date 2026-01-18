@@ -13,25 +13,37 @@ use PacificDev\BlogAi\Models\Setting;
 
 
 if (\Schema::hasTable('settings')) {
-  //$schedule =  app()->make(Schedule::class);
-  //dd($schedule);
-
-  // Construct the CRON
+  // Get timezone
+  $timezone = Setting::get('scheduler_timezone', 'Europe/Rome');
+  
+  // Construct the CRON for post generation
   $postGenDays = Setting::get('post_generation_schedule_days', [2, 3]);
   $postShareDays = Setting::get('post_share_schedule_days', [3, 4]);
   
-  $postsCron = constructCron($postGenDays, Setting::get('post_generation_schedule_time', '09:00'));
-  $sharesCron = constructCron($postShareDays, Setting::get('post_share_schedule_time', '13:00'));
-  //dd($postsCron, $sharesCron);
+  $postsCron = constructCron($postGenDays, Setting::get('post_generation_schedule_time', '09:00'), $timezone);
+  
+  // Get multiple share times
+  $postShareTimes = Setting::get('post_share_schedule_times', []);
+  
+  // Fallback to single time if no times array
+  if (empty($postShareTimes)) {
+    $postShareTimes = [Setting::get('post_share_schedule_time', '13:00')];
+  }
+  //dd($postsCron, $postShareTimes);
 
   // Only schedule post generation if days are configured
   if (!empty($postGenDays) && is_array($postGenDays) && array_filter($postGenDays)) {
     Schedule::command('bloggai:post')->cron($postsCron);
   }
 
-  // Only schedule post sharing if days are configured
+  // Schedule multiple share jobs (one for each configured time)
   if (!empty($postShareDays) && is_array($postShareDays) && array_filter($postShareDays)) {
-    Schedule::call(function () {
+    foreach ($postShareTimes as $index => $shareTime) {
+      if (empty($shareTime)) continue;
+      
+      $sharesCron = constructCron($postShareDays, $shareTime, $timezone);
+      
+      Schedule::call(function () {
     // Resolve configured shareable models mapping from config.
     // Expected format: ['post' => \PacificDev\BlogAi\Models\Post::class, 'course' => \App\Models\Course::class]
     $mapping = config('linkedin.share_models', ['post' => \PacificDev\BlogAi\Models\Post::class]);
@@ -163,7 +175,8 @@ if (\Schema::hasTable('settings')) {
         Log::error('❌ LinkedIn share failed: ' . $e->getMessage());
     }
     
-  })->name('bloggai.share')->cron($sharesCron);
+      })->name('bloggai.share.' . $index)->cron($sharesCron);
+    }
   }
 }
 
@@ -175,7 +188,7 @@ if (\Schema::hasTable('settings')) {
  */
 // Ensure helper available even if this routes file is included multiple times.
 if (! function_exists('constructCron')) {
-    function constructCron($days, $time)
+    function constructCron($days, $time, $userTimezone = 'UTC')
     {
         // Normalize days into a comma-separated list of day-of-week numbers (0=Sun .. 6=Sat)
         $selected = [];
@@ -225,6 +238,19 @@ if (! function_exists('constructCron')) {
 
         $hour = max(0, min(23, $hour));
         $minute = max(0, min(59, $minute));
+
+        // Convert user timezone to UTC for scheduler
+        if ($userTimezone !== 'UTC') {
+            try {
+                $userTime = \Carbon\Carbon::createFromTime($hour, $minute, 0, $userTimezone);
+                $utcTime = $userTime->setTimezone('UTC');
+                $hour = $utcTime->hour;
+                $minute = $utcTime->minute;
+            } catch (\Exception $e) {
+                // Fallback to user time if timezone conversion fails
+                \Log::warning("Timezone conversion failed for {$userTimezone}: " . $e->getMessage());
+            }
+        }
 
         // Construct the CRON (minute hour day month day-of-week)
         return "{$minute} {$hour} * * {$daysPart}";

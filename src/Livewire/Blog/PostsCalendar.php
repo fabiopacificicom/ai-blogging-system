@@ -11,6 +11,9 @@ class PostsCalendar extends Component
     public $postGenerationTime;
     public $postShareDays = [];
     public $postShareTime;
+    public $postShareTimes = []; // Array of times for multiple shares per day
+    public $schedulerTimezone = 'Europe/Rome';
+    public $maxSharesPerDay = 3;
 
     public function mount()
     {
@@ -28,9 +31,35 @@ class PostsCalendar extends Component
 
 
         $this->postShareTime = Setting::get('post_share_schedule_time', '13:00');
-
+        
+        // Load timezone
+        $this->schedulerTimezone = Setting::get('scheduler_timezone', 'Europe/Rome');
+        
+        // Load max shares per day and share times array
+        $this->maxSharesPerDay = Setting::get('linkedin.max_shares_per_day', 3);
+        $this->postShareTimes = Setting::get('post_share_schedule_times', []);
+        
+        // Initialize share times if empty (spread evenly across day)
+        if (empty($this->postShareTimes) && $this->maxSharesPerDay > 0) {
+            $this->postShareTimes = $this->generateDefaultShareTimes($this->maxSharesPerDay);
+        }
 
         //dd($this->postGenerationDays, $this->postGenerationTime, $this->postShareDays, $this->postShareTime);
+    }
+    
+    private function generateDefaultShareTimes(int $count): array
+    {
+        $times = [];
+        $startHour = 9;
+        $endHour = 18;
+        $interval = ($endHour - $startHour) / max(1, $count);
+        
+        for ($i = 0; $i < $count; $i++) {
+            $hour = (int)($startHour + ($i * $interval));
+            $times[] = sprintf('%02d:00', $hour);
+        }
+        
+        return $times;
     }
 
     public function rules()
@@ -40,6 +69,9 @@ class PostsCalendar extends Component
             'postGenerationTime' => 'required|date_format:H:i',
             'postShareDays' => ['required', 'array'],
             'postShareTime' => 'required|date_format:H:i',
+            'schedulerTimezone' => 'required|timezone',
+            'postShareTimes.*' => 'nullable|date_format:H:i',
+            'maxSharesPerDay' => 'required|integer|min:1|max:10',
         ];
     }
 
@@ -64,11 +96,17 @@ class PostsCalendar extends Component
         $genDays = array_keys(array_filter($this->postGenerationDays, fn($v) => $v === true || $v === '1' || $v === 1));
         $shareDays = array_keys(array_filter($this->postShareDays, fn($v) => $v === true || $v === '1' || $v === 1));
 
+        // Filter and clean share times
+        $cleanShareTimes = array_values(array_filter($this->postShareTimes, fn($t) => !empty($t)));
+        
         // Save the settings to the database for both commands
         Setting::set('post_generation_schedule_days', $genDays);
         Setting::set('post_generation_schedule_time', $this->postGenerationTime);
         Setting::set('post_share_schedule_days', $shareDays);
         Setting::set('post_share_schedule_time', $this->postShareTime);
+        Setting::set('scheduler_timezone', $this->schedulerTimezone);
+        Setting::set('post_share_schedule_times', $cleanShareTimes);
+        Setting::set('linkedin.max_shares_per_day', $this->maxSharesPerDay);
 
         // Provide feedback to the user
         session()->flash('message', 'Schedules updated successfully.');
