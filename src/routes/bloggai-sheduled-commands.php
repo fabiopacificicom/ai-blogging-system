@@ -165,18 +165,60 @@ if (\Schema::hasTable('settings')) {
  * @param $days
  * @param $time
  */
-function constructCron($days, $time)
-{
+// Ensure helper available even if this routes file is included multiple times.
+if (! function_exists('constructCron')) {
+    function constructCron($days, $time)
+    {
+        // Normalize days into a comma-separated list of day-of-week numbers (0=Sun .. 6=Sat)
+        $selected = [];
+        if (is_array($days)) {
+            foreach ($days as $k => $v) {
+                // Case: numeric indexed array with numeric values e.g. [2,3]
+                if (is_int($k) && (is_int($v) || (is_string($v) && ctype_digit($v)))) {
+                    $selected[] = (int) $v;
+                    continue;
+                }
 
-  // Convert the associative array to a simple string of day numbers
-  $days = implode(',', array_keys(array_filter($days, function ($value) {
-    return $value === true;
-  })));
+                // Case: associative like ['1' => true] or ['mon' => true]
+                if ((is_int($k) || ctype_digit((string) $k)) && ($v === true || $v === 1 || $v === '1')) {
+                    $selected[] = (int) $k;
+                    continue;
+                }
 
-  // extract times and hours
-  [$hour, $minute] = explode(':', $time);
+                if (is_string($k) && $v === true) {
+                    $map = ['sun' => 0, 'mon' => 1, 'tue' => 2, 'wed' => 3, 'thu' => 4, 'fri' => 5, 'sat' => 6];
+                    $key = strtolower(substr($k, 0, 3));
+                    if (isset($map[$key])) {
+                        $selected[] = $map[$key];
+                    }
+                }
 
+                // Case: value is numeric string in indexed arrays
+                if (is_string($v) && ctype_digit($v)) {
+                    $selected[] = (int) $v;
+                }
+            }
+        }
 
-  // Construct the CRON
-  return "{$minute} {$hour} * * {$days}";
+        $selected = array_values(array_unique(array_filter($selected, fn ($x) => $x !== null && $x !== '')));
+        $daysPart = empty($selected) ? '*' : implode(',', $selected);
+
+        // Parse time safely (expects HH:MM)
+        $hour = 9;
+        $minute = 0;
+        if (is_string($time) && strpos($time, ':') !== false) {
+            [$h, $m] = array_pad(explode(':', $time, 2), 2, '0');
+            $hour = is_numeric($h) ? (int) $h : $hour;
+            $minute = is_numeric($m) ? (int) $m : $minute;
+        } elseif (is_numeric($time)) {
+            $hour = (int) $time;
+            $minute = 0;
+        }
+
+        $hour = max(0, min(23, $hour));
+        $minute = max(0, min(59, $minute));
+
+        // Construct the CRON (minute hour day month day-of-week)
+        return "{$minute} {$hour} * * {$daysPart}";
+    }
 }
