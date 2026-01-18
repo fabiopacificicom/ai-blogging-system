@@ -10,9 +10,9 @@ class Setting extends Model
 {
     use HasFactory;
     
-    protected $casts = [
-        'value' => 'array',
-    ];
+    // Keep raw storage and only JSON-encode arrays/objects when needed.
+    // Remove automatic array cast to avoid encoding scalar strings into JSON strings.
+    protected $casts = [];
 
     protected $fillable = ['key', 'value'];
 
@@ -26,7 +26,22 @@ class Setting extends Model
     public static function get($key, $default = null)
     {
         $setting = static::where('key', $key)->first();
-        return $setting ? $setting->value : $default;
+        if (! $setting) {
+            return $default;
+        }
+
+        $raw = $setting->getAttributes()['value'] ?? null;
+
+        if (is_null($raw) || $raw === '') {
+            return $default;
+        }
+
+        $decoded = json_decode($raw, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $decoded;
+        }
+
+        return $raw;
     }
 
     /**
@@ -38,8 +53,19 @@ class Setting extends Model
      */
     public static function set($key, $value)
     {
-        //dd($key, $value);
-        static::updateOrCreate(['key' => $key], ['value' => $value]);
+        // Convert null to empty string to satisfy NOT NULL constraint
+        if (is_null($value)) {
+            $stored = '';
+        } elseif (is_array($value) || is_object($value)) {
+            $stored = json_encode($value);
+        } else {
+            $stored = $value;
+        }
+
+        static::updateOrCreate(
+            ['key' => $key],
+            ['value' => $stored]
+        );
     }
     
 
