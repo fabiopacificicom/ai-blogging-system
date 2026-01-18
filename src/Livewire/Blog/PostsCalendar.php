@@ -60,11 +60,14 @@ class PostsCalendar extends Component
         // Validate the input for both commands
         $this->validate();
 
-        //dd($val_data);
+        // Normalize boolean arrays to index arrays (convert [0=>true,1=>false,2=>true] to [0,2])
+        $genDays = array_keys(array_filter($this->postGenerationDays, fn($v) => $v === true || $v === '1' || $v === 1));
+        $shareDays = array_keys(array_filter($this->postShareDays, fn($v) => $v === true || $v === '1' || $v === 1));
+
         // Save the settings to the database for both commands
-        Setting::set('post_generation_schedule_days', $this->postGenerationDays);
+        Setting::set('post_generation_schedule_days', $genDays);
         Setting::set('post_generation_schedule_time', $this->postGenerationTime);
-        Setting::set('post_share_schedule_days', $this->postShareDays);
+        Setting::set('post_share_schedule_days', $shareDays);
         Setting::set('post_share_schedule_time', $this->postShareTime);
 
         // Provide feedback to the user
