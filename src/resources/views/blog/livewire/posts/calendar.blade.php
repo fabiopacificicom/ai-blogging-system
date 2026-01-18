@@ -15,7 +15,7 @@
         <option value="America/Los_Angeles">America/Los_Angeles (PST/PDT)</option>
         <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
       </select>
-      <small class="text-muted">Selected timezone: {{ $schedulerTimezone }}</small>
+      <small class="text-muted">Selected timezone: {{ isset($schedulerTimezone) ? $schedulerTimezone : (isset($scheduler_timezone) ? $scheduler_timezone : 'UTC') }}</small>
     </div>
 
     <!-- Post Generation Scheduler -->
@@ -67,8 +67,8 @@
         <input type="number" wire:model.live="maxSharesPerDay" min="1" max="10" class="form-control" style="max-width: 100px;">
       </div>
       <div class="mb-2">
-        <label class="form-label">Share times (up to {{ $maxSharesPerDay }} times):</label>
-        @for($i = 0; $i < $maxSharesPerDay; $i++)
+        <label class="form-label">Share times (up to {{ $maxSharesPerDay ?? $max_shares_per_day ?? 3 }} times):</label>
+        @for($i = 0; $i < ($maxSharesPerDay ?? $max_shares_per_day ?? 3); $i++)
           <div class="mb-2">
             <label class="text-muted">Share {{ $i + 1 }}:</label>
             <input type="time" wire:model.defer="postShareTimes.{{ $i }}" class="form-control" style="max-width: 150px;">
