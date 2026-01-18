@@ -17,14 +17,21 @@ if (\Schema::hasTable('settings')) {
   //dd($schedule);
 
   // Construct the CRON
-  $postsCron = constructCron(Setting::get('post_generation_schedule_days', [2, 3]), Setting::get('post_generation_schedule_time', '09:00'));
-  $sharesCron = constructCron(Setting::get('post_share_schedule_days', [3, 4]), Setting::get('post_share_schedule_time', '13:00'));
+  $postGenDays = Setting::get('post_generation_schedule_days', [2, 3]);
+  $postShareDays = Setting::get('post_share_schedule_days', [3, 4]);
+  
+  $postsCron = constructCron($postGenDays, Setting::get('post_generation_schedule_time', '09:00'));
+  $sharesCron = constructCron($postShareDays, Setting::get('post_share_schedule_time', '13:00'));
   //dd($postsCron, $sharesCron);
 
+  // Only schedule post generation if days are configured
+  if (!empty($postGenDays) && is_array($postGenDays) && array_filter($postGenDays)) {
+    Schedule::command('bloggai:post')->cron($postsCron);
+  }
 
-  Schedule::command('bloggai:post')->cron($postsCron);
-
-  Schedule::call(function () {
+  // Only schedule post sharing if days are configured
+  if (!empty($postShareDays) && is_array($postShareDays) && array_filter($postShareDays)) {
+    Schedule::call(function () {
     // Resolve configured shareable models mapping from config.
     // Expected format: ['post' => \PacificDev\BlogAi\Models\Post::class, 'course' => \App\Models\Course::class]
     $mapping = config('linkedin.share_models', ['post' => \PacificDev\BlogAi\Models\Post::class]);
@@ -157,6 +164,7 @@ if (\Schema::hasTable('settings')) {
     }
     
   })->name('bloggai.share')->cron($sharesCron);
+  }
 }
 
 
