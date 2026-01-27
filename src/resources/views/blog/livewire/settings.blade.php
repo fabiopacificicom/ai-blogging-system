@@ -32,6 +32,35 @@
             </div>
             <!-- /Blog Topics -->
 
+            <h6 class="mt-3">{{__('LinkedIn Share Instructions')}}</h6>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="lead">Configure how the AI should write LinkedIn promotional posts</p>
+                    
+                    @if(session()->has('success'))
+                    <div class="alert alert-success mb-3">{{ session('success') }}</div>
+                    @endif
+
+                    <form wire:submit.prevent="saveShareInstructions">
+                        <div class="mb-3">
+                            <label for="shareInstructions" class="form-label">AI Share Instructions (System Prompt)</label>
+                            <textarea 
+                                wire:model.defer="shareInstructions" 
+                                class="form-control font-monospace" 
+                                id="shareInstructions"
+                                rows="8"
+                                placeholder="{{ config('bloggai.presets.shareInstructions.content') }}"
+                            ></textarea>
+                            <small class="form-text text-muted">
+                                This prompt defines the AI persona and style for LinkedIn posts. Leave empty to use the default configuration.
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Share Instructions</button>
+                    </form>
+                </div>
+            </div>
+            <!-- /LinkedIn Share Instructions -->
+
         </div>
         <div class="col-12 col-md-4 col-lg-3">
             <h6 class="mt-3">{{__('Social Integrations')}}</h6>
