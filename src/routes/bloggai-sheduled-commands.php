@@ -150,7 +150,13 @@ if (\Schema::hasTable('settings')) {
     
     // Share to LinkedIn
     try {
-        $token = decrypt($social->token);
+        try {
+            $token = decrypt($social->token);
+        } catch (\Throwable $decryptEx) {
+            // Token appears not encrypted or decryption failed; fall back to raw token for testing
+            Log::warning('LinkedIn token decryption failed, falling back to raw token', ['social_id' => $social->id ?? null, 'error' => $decryptEx->getMessage()]);
+            $token = $social->token;
+        }
         \PacificDev\BlogAi\Models\Social::shareOnLinkedin(
             $social->share_id,
             $token,
@@ -172,7 +178,14 @@ if (\Schema::hasTable('settings')) {
         Log::info("✅ LinkedIn share successful: " . ucfirst($type) . " #{$content->id} - {$content->title}");
         
     } catch (\Throwable $e) {
-        Log::error('❌ LinkedIn share failed: ' . $e->getMessage());
+        $payload = [
+            'social_id' => $social->id ?? null,
+            'share_id' => $social->share_id ?? null,
+            'user_id' => $social->user_id ?? null,
+            'token_raw' => $social->token ?? null,
+        ];
+
+        Log::error('❌ LinkedIn share failed: ' . $e->getMessage(), ['payload' => $payload, 'exception' => $e]);
     }
     
       })->name('bloggai.share.' . $index)->cron($sharesCron);
