@@ -131,7 +131,7 @@
                 <h5 class="text-muted">
                     Current Cover Image
                 </h5>
-                <img class="img-fluid" src="{{asset('/storage' . $post->cover_image)}}" alt="">
+                <img class="img-fluid" src="{{Storage::url($post->cover_image)}}" alt="">
 
                 @endif
                 <p>Regenerate cover image</p>
@@ -153,7 +153,7 @@
                 </div>
                 @enderror
                 @if($imagePath != $post->cover_image)
-                <img width="200" src="{{asset('/storage/' . $imagePath)}}" alt="">
+                <img width="200" src="{{Storage::url($imagePath)}}" alt="">
                 @endif
 
 
