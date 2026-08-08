@@ -7,10 +7,8 @@
         display: none !important;
     }
 
-    @media (prefers-color-scheme: light) {
-        main {
-            background-color: #ededed;
-        }
+    html:not(.dark) main {
+        background-color: #ededed;
     }
 
     .jumbotron {

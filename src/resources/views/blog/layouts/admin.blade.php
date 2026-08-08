@@ -1,5 +1,12 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    x-data="{
+        isDark: {{ session('theme', 'dark') === 'dark' ? 'true' : 'false' }}
+    }"
+    :class="{ 'dark': isDark }"
+    :style="{ 'color-scheme': isDark ? 'dark' : 'light' }"
+    :data-bs-theme="isDark ? 'dark' : 'light'"
+    @dark-mode-changed.window="isDark = $event.detail.isDark">
 
 @include('pacificdev::blog.partials.head')
 

@@ -1,5 +1,12 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    x-data="{
+        isDark: {{ session('theme', 'dark') === 'dark' ? 'true' : 'false' }}
+    }"
+    :class="{ 'dark': isDark }"
+    :style="{ 'color-scheme': isDark ? 'dark' : 'light' }"
+    :data-bs-theme="isDark ? 'dark' : 'light'"
+    @dark-mode-changed.window="isDark = $event.detail.isDark">
 
 <head>
     <meta charset="utf-8">
@@ -9,6 +16,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+
+    @if(isset($post) && $post->seo_title)
+    <meta name="title" content="{{ $post->seo_title }}">
+    @endif
+    @if(isset($post) && $post->seo_description)
+    <meta name="description" content="{{ $post->seo_description }}">
+    @endif
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
