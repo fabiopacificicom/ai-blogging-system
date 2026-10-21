@@ -50,6 +50,7 @@ class PacificDevServiceProvider extends ServiceProvider
 
     // Register the component
     Blade::component('pacificdev-panel', PanelComponent::class);
+    Blade::componentNamespace('PacificDev\\BlogAi\\View\\Components', 'pacificdev');
     Livewire::component('blog.posts-words-counter', PostsWordsCounter::class);
     Livewire::component('blog.posts-toggler', PostsToggler::class);
     Livewire::component('blog.post-status-toggler', PostStatusToggler::class);

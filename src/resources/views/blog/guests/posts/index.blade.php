@@ -87,7 +87,10 @@
             @unless ($post->status === 'draft')
             <div class="col-12">
                 <div class="card rounded-4 shadow h-100 position-relative">
+                    
                     <img style="object-fit: cover" width="320" height="320" src="{{ asset('storage' . $post->cover_image) }}" loading="lazy" alt="Post {{$post->title}} Cover Image" class="card-img-top rounded-4">
+
+
                     <div class="card-body position-absolute w-100 h-100 d-flex flex-column justify-content-between">
 
                         <div class="datails">
