@@ -9,7 +9,7 @@ use PacificDev\BlogAi\Commands\AiCreateArticle;
 use PacificDev\BlogAi\Commands\BloggaiSocialShare;
 use PacificDev\BlogAi\Traits\Actionable;
 use Illuminate\Support\Facades\Blade;
-use PacificDev\BlogAi\View\Components\Blog\PanelComponent;
+use PacificDev\BlogAi\View\Components\Blog\Panel;
 use PacificDev\BlogAi\Livewire\Blog\PostsWordsCounter;
 use Livewire\Livewire;
 use PacificDev\BlogAi\Commands\Installer;
@@ -49,7 +49,7 @@ class PacificDevServiceProvider extends ServiceProvider
     $this->loadEnvironment();
 
     // Register the component
-    Blade::component('pacificdev-panel', PanelComponent::class);
+    Blade::component('pacificdev-panel', Panel::class);
     Blade::componentNamespace('PacificDev\\BlogAi\\View\\Components', 'pacificdev');
     Livewire::component('blog.posts-words-counter', PostsWordsCounter::class);
     Livewire::component('blog.posts-toggler', PostsToggler::class);

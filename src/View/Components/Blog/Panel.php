@@ -4,7 +4,7 @@ namespace PacificDev\BlogAi\View\Components\Blog;
 
 use Illuminate\View\Component;
 
-class PanelComponent extends Component
+class Panel extends Component
 {
     /**
      * Create a new component instance.
